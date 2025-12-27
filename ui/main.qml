@@ -51,6 +51,8 @@ ApplicationWindow {
         if (currentWorkspace === 1) workspaceStack.sourceComponent = workspace1
         else if (currentWorkspace === 2) workspaceStack.sourceComponent = workspace2
         else if (currentWorkspace === 3) workspaceStack.sourceComponent = workspace3
+        else if (currentWorkspace === 4) workspaceStack.sourceComponent = workspace4
+        else if (currentWorkspace === 5) workspaceStack.sourceComponent = workspace5
     }
 
     TopBar {

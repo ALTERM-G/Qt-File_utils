@@ -36,7 +36,7 @@ ComboBox {
 
         Behavior on color {
             ColorAnimation {
-                duration: 150
+                duration: 300
             }
         }
 
@@ -67,7 +67,6 @@ ComboBox {
             delegate: ItemDelegate {
                 width: parent.width
                 height: 40
-
                 contentItem: Text {
                     text: modelData
                     font.pixelSize: 18
@@ -94,6 +93,5 @@ ComboBox {
                 }
             }
         }
-
     }
 }

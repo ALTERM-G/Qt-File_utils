@@ -43,10 +43,20 @@ Rectangle {
 
                     Behavior on color {
                         ColorAnimation {
-                            duration: 180
+                            duration: 300
                             easing.type: Easing.InOutQuad
                         }
                     }
+                }
+
+                contentItem: Text {
+                    text: parent.text
+                    color: parent.checked ? "#121212" : "#e6e6e6"
+                    font.family: parent.font.family
+                    font.pointSize: parent.font.pointSize
+                    font.bold: parent.font.bold
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                 }
 
                 MouseArea {
