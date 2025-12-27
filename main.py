@@ -8,6 +8,7 @@ def main():
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()
     engine.addImportPath("ui/components")
+    engine.addImportPath("ui/workspaces")
     controller = Controller()
     engine.rootContext().setContextProperty("controller", controller)
     engine.load("ui/main.qml")

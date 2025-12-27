@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Dialogs
 import "components"
+import "workspaces"
 
 ApplicationWindow {
     id: window
@@ -12,9 +13,7 @@ ApplicationWindow {
     maximumWidth: width
     minimumHeight: height
     maximumHeight: height
-    flags: Qt.FramelessWindowHint | Qt.Window
     title: "File Converter"
-    property var outputFormats: []
     property bool isConverting: false
     property int currentWorkspace: 1
     property var extensionToTypeMap: {
@@ -47,12 +46,49 @@ ApplicationWindow {
         "Extract Files",
         "Settings"
     ]
-    onCurrentWorkspaceChanged: {
-        if (currentWorkspace === 1) workspaceStack.sourceComponent = workspace1
-        else if (currentWorkspace === 2) workspaceStack.sourceComponent = workspace2
-        else if (currentWorkspace === 3) workspaceStack.sourceComponent = workspace3
-        else if (currentWorkspace === 4) workspaceStack.sourceComponent = workspace4
-        else if (currentWorkspace === 5) workspaceStack.sourceComponent = workspace5
+    ListModel {
+        id: outputFormatsModel
+    }
+
+    Workspace1 {
+        id: workspace_1
+        anchors.top: topBar.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        filedialog: filedialog
+        isConverting: isConverting
+        updateOutputFormats: window.updateOutputFormats
+        extensionToTypeMap: extensionToTypeMap
+        outputFormats: outputFormatsModel
+        visible: currentWorkspace === 1
+    }
+
+    Workspace2 {
+        id: workspace_2
+        anchors.top: topBar.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        filedialog: filedialog
+        isConverting: isConverting
+        outputFormats: outputFormats
+        visible: currentWorkspace === 2
+    }
+
+    Workspace3 {
+        id: workspace_3
+        visible: currentWorkspace === 3
+    }
+
+    Workspace4 {
+        id: workspace_4
+        visible: currentWorkspace === 4
+    }
+
+    Workspace5 {
+        id: workspace_5
+        visible: currentWorkspace === 5
     }
 
     TopBar {
@@ -61,165 +97,22 @@ ApplicationWindow {
         titles: window.workspaceTitles
     }
 
-    Loader {
-        id: workspaceStack
-        anchors.top: topBar.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        sourceComponent: workspace1
-    }
-
-    Component {
-        id: workspace1
-        Rectangle {
-            anchors.fill: parent
-            color: "#222222"
-
-            Rectangle {
-                id: overlay
-                anchors.fill: parent
-                opacity: 0.2
-                visible: isConverting
-                z: 100
-
-                MouseArea {
-                    anchors.fill: parent
-                    enabled: true
-                    hoverEnabled: true
-                    acceptedButtons: Qt.AllButtons
-                }
-
-                CustomBusyIndicator {
-                    anchors.centerIn: parent
-                    active: true
-                    indicatorSize: 64
-                }
-            }
-
-            DropZone {
-                id: dropzone
-                anchors.horizontalCenter: parent.horizontalCenter
-                y: window.height / 2 - height / 2
-            }
-
-            ChooseFileButton {
-                id: chooseFileButton
-                dialog: filedialog
-                anchors.bottom: dropzone.top
-                anchors.bottomMargin: 20
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-
-            FileDialog {
-                id: filedialog
-                title: "Select a file"
-                fileMode: FileDialog.OpenFile
-                nameFilters: ["Images (*.png *.jpg *.bmp)", "Documents (*.pdf *.docx)"]
-
-                onAccepted: {
-                    var path = selectedFile.toString().replace("file://", "")
-                    dropzone.droppedFile = path
-                }
-            }
-
-            CustomComboBox {
-                id: comboBox
-                width: 200
-                anchors.bottom: dropzone.top
-                anchors.bottomMargin: 20
-                anchors.left: parent.left
-                anchors.leftMargin: 60
-                model: ["Video", "Image", "Audio", "Document", "Vector"]
-                onCurrentTextChanged: updateOutputFormats(currentText)
-            }
-
-            CustomComboBox {
-                id: outputComboBox
-                width: 200
-                model: outputFormats
-                enabled: outputFormats.length > 0
-                anchors.bottom: dropzone.top
-                anchors.bottomMargin: 20
-                anchors.right: parent.right
-                anchors.rightMargin: 60
-            }
-
-            ConvertButton {
-                id: convertButton
-                anchors.bottom: parent.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottomMargin: 20
-                onPressed: {
-                    if (dropzone.droppedFile && comboBox.currentText && outputComboBox.currentText) {
-                        controller.convert(
-                            dropzone.droppedFile,
-                            comboBox.currentText,
-                            outputComboBox.currentText
-                        )
-                    }
-                    else {
-                        console.log("Select a file, type, and output format first");
-                    }
-                }
-            }
-        }
-    }
-
-    Component {
-        id: workspace2
-        Rectangle {
-            anchors.fill: parent
-            color: "#222222"
-        }
-    }
-
-    Component {
-        id: workspace3
-        Rectangle {
-            anchors.fill: parent
-            color: "#222222"
-        }
-    }
-
-    Component {
-        id: workspace4
-        Rectangle {
-            anchors.fill: parent
-            color: "#222222"
-        }
-    }
-
-    Component {
-        id: workspace5
-        Rectangle {
-            anchors.fill: parent
-            color: "#222222"
-        }
-    }
-
-    function switchWorkspace(index) {
-        var target
-        if (index === 1) target = workspace1
-        else if (index === 2) target = workspace2
-        else target = workspace3
-
-        workspaceStack.replace(target)
-    }
-
     function updateOutputFormats(type) {
+        outputFormatsModel.clear()
+        var formats = []
         if (type === "Video")
-            outputFormats = [".mp4", ".mkv", ".avi", ".mov"];
+            formats = [".mp4", ".mkv", ".avi", ".mov"]
         else if (type === "Vector")
-            outputFormats = [".svg", ".pdf", ".png", ".eps"];
+            formats = [".svg", ".pdf", ".png", ".eps"]
         else if (type === "Image")
-            outputFormats = [".png", ".jpg", ".webp", ".bmp"];
+            formats = [".png", ".jpg", ".webp", ".bmp"]
         else if (type === "Audio")
-            outputFormats = [".mp3", ".wav", ".flac", ".ogg"];
+            formats = [".mp3", ".wav", ".flac", ".ogg"]
         else if (type === "Document")
-            outputFormats = [".txt", ".md", ".html", ".rtf", ".csv", ".docx", ".pdf"];
-        else
-            outputFormats = [];
+            formats = [".txt", ".md", ".html", ".rtf", ".csv", ".docx", ".pdf"]
+
+        for (var i = 0; i < formats.length; i++)
+            outputFormatsModel.append({"name": formats[i]})
     }
 
     function handleInputFile(path) {
@@ -246,38 +139,23 @@ ApplicationWindow {
     }
     Shortcut {
         sequence: "Ctrl+1"
-        onActivated: {
-            window.currentWorkspace = 1
-            workspaceStack.sourceComponent = workspace1
-        }
+        onActivated: window.currentWorkspace = 1
     }
     Shortcut {
         sequence: "Ctrl+2"
-        onActivated: {
-            window.currentWorkspace = 2
-            workspaceStack.sourceComponent = workspace2
-        }
+        onActivated: window.currentWorkspace = 2
     }
     Shortcut {
         sequence: "Ctrl+3"
-        onActivated: {
-            window.currentWorkspace = 3
-            workspaceStack.sourceComponent = workspace3
-        }
+        onActivated: window.currentWorkspace = 3
     }
     Shortcut {
         sequence: "Ctrl+4"
-        onActivated: {
-            window.currentWorkspace = 4
-            workspaceStack.sourceComponent = workspace4
-        }
+        onActivated: window.currentWorkspace = 4
     }
     Shortcut {
         sequence: "Ctrl+5"
-        onActivated: {
-            window.currentWorkspace = 5
-            workspaceStack.sourceComponent = workspace5
-        }
+        onActivated: window.currentWorkspace = 5
     }
 
     Connections {
