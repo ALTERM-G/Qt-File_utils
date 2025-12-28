@@ -14,9 +14,10 @@ Rectangle {
         model: ["Option 1", "Option 2", "Option 3"]
     }
 
-    ConvertButton {
+    DropZone {
         anchors.top: combobox.bottom
+        anchors.topMargin: 20
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.topMargin: 50
+        dropMode: 1
     }
 }
