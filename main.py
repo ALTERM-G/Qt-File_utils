@@ -1,6 +1,7 @@
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 from backend.Controller import Controller
+from backend.FileHelper import FileHelper
 from PySide6.QtGui import QGuiApplication, QIcon
 from PySide6.QtQml import QQmlApplicationEngine
 
@@ -9,6 +10,8 @@ def main():
     engine = QQmlApplicationEngine()
     engine.addImportPath("ui/components")
     engine.addImportPath("ui/workspaces")
+    file_helper = FileHelper()
+    engine.rootContext().setContextProperty("fileHelper", file_helper)
     controller = Controller()
     engine.rootContext().setContextProperty("controller", controller)
     engine.load("ui/main.qml")

@@ -32,7 +32,7 @@ ComboBox {
         radius: 6
         color: control.hovered ? "#4b4b4b" : "#3a3a3a"
         border.color: "#888888"
-        border.width: 3
+        border.width: 4
 
         Behavior on color {
             ColorAnimation {
@@ -49,7 +49,7 @@ ComboBox {
 
     popup: Popup {
         width: control.width
-        implicitHeight: control.count * 46
+        implicitHeight: control.count * 47
 
         background: Rectangle {
             radius: 6

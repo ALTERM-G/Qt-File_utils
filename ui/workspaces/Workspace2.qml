@@ -16,7 +16,6 @@ Rectangle {
         spacing: 15
 
         ChooseFileButton {
-            id: choosefilebutton
             dialog: filedialog
             anchors.horizontalCenter: parent.horizontalCenter
         }
@@ -24,11 +23,11 @@ Rectangle {
         DropZone {
             id: dropzone
             height: 250
+            infoPanel: infoPanel
         }
 
         InfoPanel {
-            filePath: dropzone.droppedFile
-            fileType: dropzone.fileTypeLabel
+            id: infoPanel
         }
     }
 

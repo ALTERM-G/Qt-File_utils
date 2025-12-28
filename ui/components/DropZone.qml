@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 
 Rectangle {
     id: dropzone
@@ -8,13 +9,14 @@ Rectangle {
     color: hovered ? "#3a3a3a" : "#333333"
     border.color: hovered ? "#dd1124" : "#888888"
     border.width: 4
+
     signal fileDropped(string path, string type)
     property bool hovered: false
     property string droppedFile: ""
     property string fileTypeLabel: ""
+    property InfoPanel infoPanel
 
     HoverHandler {
-        id: hoverHandler
         acceptedDevices: PointerDevice.Mouse
         onHoveredChanged: dropzone.hovered = hovered
     }
@@ -60,20 +62,29 @@ Rectangle {
 
     DropArea {
         anchors.fill: parent
+
         onDropped: drop => {
             if (drop.hasUrls && drop.urls.length > 0) {
                 var urlString = drop.urls[0].toString();
                 var localPath = urlString;
-                if (urlString.startsWith("file:///")) localPath = localPath.substring(7);
-                else if (urlString.startsWith("file://")) localPath = localPath.substring(6);
+                if (urlString.startsWith("file:///")) localPath = urlString.substring(7);
+                else if (urlString.startsWith("file://")) localPath = urlString.substring(6);
                 dropzone.droppedFile = localPath;
-                var ext = localPath.split('.').pop().toLowerCase();
-                var type = "Unknown";
-                if (window.extensionToTypeMap[ext] !== undefined) {
-                    type = window.extensionToTypeMap[ext];
+                var info = fileHelper.getInfo(localPath);
+                var ext = info.extension || "";
+                var fileType = "Unknown";
+                if (ext !== "" && window.extensionToTypeMap[ext] !== undefined)
+                    fileType = window.extensionToTypeMap[ext];
+                dropzone.fileTypeLabel = fileType + (ext ? " (." + ext + ")" : "");
+                dropzone.fileDropped(info.path, fileType);
+                if (dropzone.infoPanel) {
+                    dropzone.infoPanel.filePath = info.path;
+                    dropzone.infoPanel.fileName = info.name;
+                    dropzone.infoPanel.fileType = fileType;
+                    dropzone.infoPanel.fileExtension = info.extension;
+                    dropzone.infoPanel.fileSize = info.size;
+                    dropzone.infoPanel.lastModified = info.lastModified;
                 }
-                dropzone.fileTypeLabel = type + " (." + ext + ")";
-                dropzone.fileDropped(localPath, type)
             }
         }
         onEntered: dropzone.hovered = true
