@@ -1,10 +1,11 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 
 ComboBox {
     id: control
     width: 200
     height: 40
+    hoverEnabled: true
 
     contentItem: Text {
         text: control.displayText !== "" ? control.displayText : "Select"
@@ -32,6 +33,18 @@ ComboBox {
         color: control.hovered ? "#4b4b4b" : "#3a3a3a"
         border.color: "#888888"
         border.width: 3
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 150
+            }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            onClicked: control.open()
+        }
     }
 
     popup: Popup {

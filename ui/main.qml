@@ -57,7 +57,7 @@ ApplicationWindow {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         filedialog: filedialog
-        isConverting: isConverting
+        isConverting: window.isConverting
         updateOutputFormats: window.updateOutputFormats
         extensionToTypeMap: extensionToTypeMap
         outputFormats: outputFormatsModel
@@ -71,8 +71,6 @@ ApplicationWindow {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         filedialog: filedialog
-        isConverting: isConverting
-        outputFormats: outputFormats
         visible: currentWorkspace === 2
     }
 
@@ -132,12 +130,6 @@ ApplicationWindow {
     }
 
     Shortcut {
-        sequence: "Return"
-        onActivated: {
-            if (!isConverting) convertButton.pressed()
-        }
-    }
-    Shortcut {
         sequence: "Ctrl+1"
         onActivated: window.currentWorkspace = 1
     }
@@ -163,17 +155,17 @@ ApplicationWindow {
 
         function onConversionStarted() {
             console.log("Conversion started...");
-            isConverting = true
+            window.isConverting = true
         }
 
         function onConversionFinished(resultPath) {
             console.log("Conversion finished! Output: " + resultPath);
-            isConverting = false
+            window.isConverting = false
         }
 
         function onConversionError(errorMessage) {
             console.log("Conversion error: " + errorMessage);
-            isConverting = false
+            window.isConverting = false
         }
     }
 }

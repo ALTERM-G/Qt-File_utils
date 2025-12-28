@@ -1,4 +1,4 @@
-import QtQuick 2.12
+import QtQuick
 
 Rectangle {
     id: convertButton
@@ -28,7 +28,7 @@ Rectangle {
 
     Behavior on color {
         ColorAnimation {
-            duration: 300
+            duration: 150
         }
     }
 }

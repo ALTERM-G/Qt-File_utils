@@ -1,8 +1,22 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 import "../components"
 
 Rectangle {
     anchors.fill: parent
     color: "#222222"
+
+    CustomComboBox {
+        id: combobox
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 100
+        model: ["Option 1", "Option 2", "Option 3"]
+    }
+
+    ConvertButton {
+        anchors.top: combobox.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 50
+    }
 }

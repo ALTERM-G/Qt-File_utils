@@ -1,5 +1,5 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 import "../components"
 
 
@@ -8,34 +8,37 @@ Rectangle {
     anchors.topMargin: 40
     color: "#222222"
     property var filedialog
-    property bool isConverting
     property ListModel outputFormats
     property var updateOutputFormats
     property var extensionToTypeMap
+    property bool isConverting
 
     Rectangle {
         id: overlay
         anchors.fill: parent
         color: "black"
-        opacity: 0.2
-        visible: isConverting
-        z: 10
-    }
+        opacity: isConverting ? 0.4 : 0
 
-    MouseArea {
-        anchors.fill: parent
-        enabled: isConverting
-        acceptedButtons: Qt.AllButtons
-        z: 11
+        Behavior on opacity {
+            NumberAnimation { duration: 200 }
+        }
+        visible: isConverting
+        z: isConverting ? 19 : 0
+
+        MouseArea {
+            anchors.fill: parent
+            enabled: isConverting
+            hoverEnabled: true
+            acceptedButtons: Qt.AllButtons
+        }
     }
 
     CustomBusyIndicator {
         anchors.centerIn: parent
         active: isConverting
         visible: isConverting
-        z: 12
+        z: isConverting ? 20 : 0
     }
-
 
     DropZone {
         id: dropzone
@@ -59,6 +62,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: 60
         model: ["Video", "Image", "Audio", "Document", "Vector"]
+        hoverEnabled: !isConverting
         onCurrentTextChanged: {
             if (updateOutputFormats) updateOutputFormats(currentText)
         }
@@ -74,6 +78,7 @@ Rectangle {
         anchors.bottomMargin: 20
         anchors.right: parent.right
         anchors.rightMargin: 60
+        hoverEnabled: !isConverting
     }
 
     ConvertButton {
@@ -115,6 +120,13 @@ Rectangle {
         comboBox.currentIndex = 0
         if (updateOutputFormats) {
             updateOutputFormats(comboBox.currentText)
+        }
+    }
+
+    Shortcut {
+        sequence: "Return"
+        onActivated: {
+            if (!isConverting) convertButton.pressed()
         }
     }
 }

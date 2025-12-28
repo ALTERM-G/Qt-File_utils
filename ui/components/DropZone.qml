@@ -53,9 +53,8 @@ Rectangle {
         source: "../../assets/file.svg"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: typeLabel.bottom
-        anchors.topMargin: 10
-        width: 128
-        height: 128
+        width: 100
+        height: 100
         visible: dropzone.droppedFile !== ""
     }
 

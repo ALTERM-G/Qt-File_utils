@@ -9,8 +9,6 @@ Rectangle {
     color: "#2a2a2a"
     border.color: "#333333"
     border.width: 2
-    visible: filePath !== ""
-
     property string filePath: ""
     property string fileName: ""
     property string fileType: ""
@@ -20,6 +18,7 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 16
         spacing: 10
+        visible: filePath !== ""
 
         Text {
             text: "File information"
