@@ -1,22 +1,21 @@
 import QtQuick
 import QtQuick.Controls
+import Data 1.0
 
 Rectangle {
     id: dropzone
     width: 700
-    height: 350
+    height: 400
     radius: 16
     color: hovered ? "#3a3a3a" : "#333333"
     border.color: hovered ? "#dd1124" : "#888888"
     border.width: 4
     signal fileDropped(string path, string type)
-
     property bool hovered: false
     property string droppedFile: ""
     property string fileTypeLabel: ""
     property InfoPanel infoPanel
     property int filesCount: 0
-
     readonly property int fileOnly: 0
     readonly property int multiFile: 1
     property int dropMode: fileOnly
@@ -82,7 +81,7 @@ Rectangle {
                 if (info.isDir) return;
 
                 dropzone.droppedFile = localPath;
-                var fileType = window.extensionToTypeMap[info.extension] ?? "Unknown";
+                var fileType = Data.extensionToTypeMap[info.extension] ?? "Unknown";
                 dropzone.fileTypeLabel = fileType + (info.extension ? " (." + info.extension + ")" : "");
                 dropzone.fileDropped(info.path, fileType);
 
@@ -96,7 +95,7 @@ Rectangle {
                 }
 
             } else if (dropzone.dropMode === dropzone.multiFile) {
-                var count = 1;
+                var count = 0;
                 for (var i = 0; i < drop.urls.length; i++) {
                     var urlString = drop.urls[i].toString();
                     var localPath = urlString.startsWith("file:///") ? urlString.substring(7)
@@ -106,7 +105,7 @@ Rectangle {
                     var info = fileHelper.getInfo(localPath);
                     if (info.isDir) continue;
 
-                    var fileType = window.extensionToTypeMap[info.extension] ?? "Unknown";
+                    var fileType = Data.extensionToTypeMap[info.extension] ?? "Unknown";
                     dropzone.fileDropped(info.path, fileType);
                     count++;
 

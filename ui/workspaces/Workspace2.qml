@@ -24,7 +24,6 @@ Rectangle {
             id: dropzone
             height: 250
             infoPanel: infoPanel
-            dropMode: 1
         }
 
         InfoPanel {

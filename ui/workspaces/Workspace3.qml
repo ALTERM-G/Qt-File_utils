@@ -6,18 +6,21 @@ Rectangle {
     anchors.fill: parent
     color: "#222222"
 
-    CustomComboBox {
-        id: combobox
+    Column {
+        anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.topMargin: 100
-        model: ["Option 1", "Option 2", "Option 3"]
-    }
+        anchors.topMargin: 60
+        spacing: 15
 
-    DropZone {
-        anchors.top: combobox.bottom
-        anchors.topMargin: 20
-        anchors.horizontalCenter: parent.horizontalCenter
-        dropMode: 1
+        CustomComboBox {
+            id: combobox
+            model: ["Option 1", "Option 2", "Option 3"]
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+        DropZone {
+            dropMode: 1
+            height: 250
+        }
     }
 }

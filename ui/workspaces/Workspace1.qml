@@ -5,12 +5,11 @@ import "../components"
 
 Rectangle {
     anchors.fill: parent
-    anchors.topMargin: 40
     color: "#222222"
+    anchors.topMargin: 40
     property var filedialog
     property ListModel outputFormats
     property var updateOutputFormats
-    property var extensionToTypeMap
     property bool isConverting
 
     Rectangle {
@@ -43,7 +42,7 @@ Rectangle {
     DropZone {
         id: dropzone
         anchors.horizontalCenter: parent.horizontalCenter
-        y: window.height / 2 - height / 2
+        anchors.verticalCenter: parent.verticalCenter
     }
 
     ChooseFileButton {
