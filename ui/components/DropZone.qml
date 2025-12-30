@@ -8,8 +8,40 @@ Rectangle {
     height: 400
     radius: 16
     color: hovered ? "#3a3a3a" : "#333333"
-    border.color: hovered ? "#dd1124" : "#888888"
-    border.width: 4
+
+
+    Canvas {
+        id: border_canvas
+        anchors.fill: parent
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = dropzone.hovered ? "#dd1124" : "#888888";
+            ctx.setLineDash(dropzone.hovered ? [] : [6, 3]);
+            ctx.lineJoin = "round";
+
+            var r = dropzone.radius;
+            var i = ctx.lineWidth / 2;
+            var w = width - 2*i;
+            var h = height - 2*i;
+
+            ctx.beginPath();
+            ctx.moveTo(i + r, i);
+            ctx.lineTo(i + w - r, i);
+            ctx.quadraticCurveTo(i + w, i, i + w, i + r);
+            ctx.lineTo(i + w, i + h - r);
+            ctx.quadraticCurveTo(i + w, i + h, i + w - r, i + h);
+            ctx.lineTo(i + r, i + h);
+            ctx.quadraticCurveTo(i, i + h, i, i + h - r);
+            ctx.lineTo(i, i + r);
+            ctx.quadraticCurveTo(i, i, i + r, i);
+            ctx.closePath();
+            ctx.stroke();
+        }
+    }
+
     signal fileDropped(string path, string type)
     property bool hovered: false
     property string droppedFile: ""
@@ -27,48 +59,75 @@ Rectangle {
 
     Text {
         id: mainText
-        anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.topMargin: 30
-        text: (dropzone.dropMode === dropzone.fileOnly)
-              ? (dropzone.droppedFile === "" ? "Drop a file here" : dropzone.droppedFile)
-              : "Drop files here"
-        color: "white"
-        font.pixelSize: 24
+        anchors.centerIn: parent
+        visible: dropzone.droppedFile === ""
         font.family: "JetBrains Mono"
+        font.pixelSize: 16
         font.bold: true
+        color: "white"
+        wrapMode: Text.NoWrap
+        elide: Text.ElideNone
+        horizontalAlignment: Text.AlignLeft
+        verticalAlignment: Text.AlignTop
+        width: 600
+        text:
+            "██████╗ ██████╗  ██████╗ ██████╗     ███████╗██╗██╗     ███████╗\n" +
+            "██╔══██╗██╔══██╗██╔═══██╗██╔══██╗    ██╔════╝██║██║     ██╔════╝\n" +
+            "██║  ██║██████╔╝██║   ██║██████╔╝    █████╗  ██║██║     █████╗  \n" +
+            "██║  ██║██╔══██╗██║   ██║██╔═══╝     ██╔══╝  ██║██║     ██╔══╝  \n" +
+            "██████╔╝██║  ██║╚██████╔╝██║         ██║     ██║███████╗███████╗\n" +
+            "╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝         ╚═╝     ╚═╝╚══════╝╚══════╝"
+    }
+
+    Text {
+        id: filePathText
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: 40
+        font.family: "JetBrains Mono"
+        font.pixelSize: 26
+        font.bold: true
+        color: "white"
+        wrapMode: Text.Wrap
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        wrapMode: Text.Wrap
-        width: parent.width - 20
-        elide: Text.ElideMiddle
+        width: parent.width - 40
+        visible: dropzone.droppedFile !== ""
+        text: dropzone.droppedFile
     }
 
     Image {
         id: fileIcon
         source: "../../assets/file.svg"
+        anchors.top: filePathText.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: mainText.bottom
-        anchors.topMargin: 10
-        width: 100
-        height: 100
-        visible: dropzone.dropMode === dropzone.fileOnly ? dropzone.droppedFile !== "" : true
-    }
+        anchors.topMargin: 20
+        width: 120
+        height: 120
+        visible: dropzone.droppedFile !== ""
 
-    Text {
-        id: filesCountText
-        anchors.top: fileIcon.bottom
-        anchors.topMargin: 10
-        anchors.horizontalCenter: parent.horizontalCenter
-        color: "lightgray"
-        font.pixelSize: 16
-        text: dropzone.filesCount > 0 ? dropzone.filesCount + " file(s) dropped" : ""
     }
 
     DropArea {
         anchors.fill: parent
 
+        onEntered: function(drag) {
+            if (drag.hasUrls) {
+                dropzone.hovered = true
+                border_canvas.requestPaint()
+            }
+        }
+
+        onExited: {
+            dropzone.hovered = false
+            border_canvas.requestPaint()
+        }
+
         onDropped: drop => {
+            dropzone.hovered = false
+            border_canvas.requestPaint()
             if (!drop.hasUrls) return;
 
             if (dropzone.dropMode === dropzone.fileOnly) {
@@ -121,7 +180,5 @@ Rectangle {
                 dropzone.filesCount = count;
             }
         }
-        onEntered: dropzone.hovered = true
-        onExited: dropzone.hovered = false
     }
 }
