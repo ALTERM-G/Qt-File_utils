@@ -1,6 +1,7 @@
 from PySide6.QtCore import QObject, Signal
 
-from backend.Compressor.zip_compressor import compress_path_to_zip
+from backend.compressors.zip import compress_path_to_zip
+from backend.compressors.rar import compress_path_to_rar
 
 
 class CompressionWorker(QObject):
@@ -17,6 +18,9 @@ class CompressionWorker(QObject):
         try:
             if self.compression_format == "zip":
                 result_path = compress_path_to_zip(self.input_path, self.output_path)
+                self.finished.emit(result_path)
+            elif self.compression_format == "rar":
+                result_path = compress_path_to_rar(self.input_path, self.output_path)
                 self.finished.emit(result_path)
             else:
                 self.error.emit(f"Unsupported format: {self.compression_format}")

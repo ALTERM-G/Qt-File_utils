@@ -9,7 +9,6 @@ Rectangle {
     radius: 16
     color: hovered ? "#3a3a3a" : "#333333"
 
-
     Canvas {
         id: border_canvas
         anchors.fill: parent
@@ -81,33 +80,33 @@ Rectangle {
             "╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝         ╚═╝     ╚═╝╚══════╝╚══════╝"
     }
 
-    Text {
-        id: filePathText
-        anchors.horizontalCenter: parent.horizontalCenter
+    Column {
         anchors.top: parent.top
         anchors.topMargin: 40
-        font.family: "JetBrains Mono"
-        font.pixelSize: 26
-        font.bold: true
-        color: "white"
-        wrapMode: Text.Wrap
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        width: parent.width - 40
-        visible: dropzone.droppedFile !== ""
-        text: dropzone.droppedFile
-    }
-
-    Image {
-        id: fileIcon
-        source: "../../assets/icons/file.svg"
-        anchors.top: filePathText.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.topMargin: 10
-        width: 120
-        height: 120
+        spacing: 10
         visible: dropzone.droppedFile !== ""
 
+        Image {
+            id: fileIcon
+            source: "../../assets/icons/file.svg"
+            width: 60
+            height: 60
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+        Text {
+            id: filePathText
+            width: dropzone.width - 40
+            font.family: "JetBrains Mono"
+            font.pixelSize: 20
+            font.bold: true
+            color: "white"
+            wrapMode: Text.Wrap
+            horizontalAlignment: Text.AlignHCenter
+            text: dropzone.droppedFile
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
     }
 
     DropArea {

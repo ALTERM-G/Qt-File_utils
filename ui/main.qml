@@ -24,10 +24,6 @@ ApplicationWindow {
 
     Workspace1 {
         id: workspace_1
-        anchors.top: topBar.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
         isConverting: window.isConverting
         updateOutputFormats: window.updateOutputFormats
         outputFormats: outputFormatsModel
@@ -36,10 +32,6 @@ ApplicationWindow {
 
     Workspace2 {
         id: workspace_2
-        anchors.top: topBar.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
         visible: currentWorkspace === 2
     }
 

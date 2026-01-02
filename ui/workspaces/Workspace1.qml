@@ -78,15 +78,12 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
-        ConvertButton {
+        CustomButton {
             id: convertButton
+            buttonText: "Convert"
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.topMargin: 20
             onPressed: {
-                if (!controller) {
-                    console.log("Controller is not assigned!")
-                    return
-                }
 
                 if (dropzone.droppedFile && comboBox.currentText && outputComboBox.currentText) {
                     controller.convert(

@@ -9,10 +9,11 @@ Rectangle {
     border.color: "#888888"
     border.width: 2.5
     signal pressed
+    property string buttonText
 
     Text {
         anchors.centerIn: parent
-        text: "Convert"
+        text: convertButton.buttonText
         font.pixelSize: 18
         font.family: "JetBrains Mono"
         color: "#ffffff"

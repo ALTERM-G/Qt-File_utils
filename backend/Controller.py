@@ -23,7 +23,7 @@ class Controller(QObject):
             return
         self.conversionStarted.emit()
         self.thread = QThread()
-        self.worker = Worker(input_path, file_type, output_format)
+        self.worker = ConvertionWorker(input_path, file_type, output_format)
         self.worker.moveToThread(self.thread)
         self.thread.started.connect(self.worker.run_convertion)
         self.worker.finished.connect(self._finish)
@@ -41,7 +41,7 @@ class Controller(QObject):
             return
 
         compression_format = compression_format.lower()
-        if compression_format != "zip":
+        if compression_format not in ["zip", "rar"]:
             self.conversionError.emit(
                 f"Unsupported compression format: {compression_format}"
             )
