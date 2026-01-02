@@ -5,7 +5,6 @@ import "../components"
 Rectangle {
     anchors.fill: parent
     color: "#222222"
-    property var filedialog
     property var controller
     property var updateOutputFormats
 

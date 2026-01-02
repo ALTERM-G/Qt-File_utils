@@ -100,10 +100,10 @@ Rectangle {
 
     Image {
         id: fileIcon
-        source: "../../assets/file.svg"
+        source: "../../assets/icons/file.svg"
         anchors.top: filePathText.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.topMargin: 20
+        anchors.topMargin: 10
         width: 120
         height: 120
         visible: dropzone.droppedFile !== ""

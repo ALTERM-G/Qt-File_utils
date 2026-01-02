@@ -28,7 +28,6 @@ ApplicationWindow {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        filedialog: filedialog
         isConverting: window.isConverting
         updateOutputFormats: window.updateOutputFormats
         outputFormats: outputFormatsModel
@@ -41,7 +40,6 @@ ApplicationWindow {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        filedialog: filedialog
         visible: currentWorkspace === 2
     }
 

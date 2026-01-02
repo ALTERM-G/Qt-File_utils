@@ -12,12 +12,24 @@ Rectangle {
     border.width: 2.5
     property var dialog
 
-    Text {
+    Row {
         anchors.centerIn: parent
-        text: "Choose File"
-        font.pixelSize: 18
-        font.family: "JetBrains Mono"
-        color: "#ffffff"
+        spacing: 8
+
+        Image {
+            source: "../../assets/icons/file_search.svg"
+            width: 24
+            height: 24
+            fillMode: Image.PreserveAspectFit
+            smooth: true
+        }
+
+        Text {
+            text: "Choose File"
+            font.pixelSize: 18
+            font.family: "JetBrains Mono"
+            color: "#ffffff"
+        }
     }
 
     MouseArea {

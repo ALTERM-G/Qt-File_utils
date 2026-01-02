@@ -1,7 +1,9 @@
-from PySide6.QtCore import QObject, Signal, Slot
 import os
 
-class Worker(QObject):
+from PySide6.QtCore import QObject, Signal, Slot
+
+
+class ConvertionWorker(QObject):
     finished = Signal(str)
     error = Signal(str)
 
@@ -12,7 +14,7 @@ class Worker(QObject):
         self.output_format = output_format
 
     @Slot()
-    def run(self):
+    def run_convertion(self):
         try:
             ext = self.output_format
             if not ext.startswith("."):
@@ -22,24 +24,31 @@ class Worker(QObject):
             output_file = os.path.join(dir_name, f"{base_name}_converted{ext}")
             counter = 1
             while os.path.exists(output_file):
-                output_file = os.path.join(dir_name, f"{base_name}_converted_{counter}{ext}")
+                output_file = os.path.join(
+                    dir_name, f"{base_name}_converted_{counter}{ext}"
+                )
                 counter += 1
 
             print("Converting to:", output_file)
             if self.file_type == "Video":
                 from backend.converters.video import convert_video
+
                 result = convert_video(self.input_path, output_file)
             elif self.file_type == "Vector":
                 from backend.converters.vector import convert_vector
+
                 result = convert_vector(self.input_path, output_file)
             elif self.file_type == "Image":
                 from backend.converters.image import convert_image
+
                 result = convert_image(self.input_path, output_file)
             elif self.file_type == "Audio":
                 from backend.converters.audio import convert_audio
+
                 result = convert_audio(self.input_path, output_file)
             elif self.file_type == "Document":
                 from backend.converters.document import convert_document
+
                 result = convert_document(self.input_path, output_file)
             else:
                 raise ValueError("Unsupported file type")

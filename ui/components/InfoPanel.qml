@@ -4,7 +4,7 @@ import QtQuick.Layouts
 Rectangle {
     id: root
     width: 700
-    height: 200
+    height: Math.max(200, contentColumn.implicitHeight + 32)
     radius: 12
     color: "#2a2a2a"
     border.color: "#333333"
@@ -16,9 +16,24 @@ Rectangle {
     property string fileSize: ""
     property string fileExtension: ""
     property string lastModified: ""
+    property bool isCorrupted: false
+
+    function formatLongText(text, lineLength) {
+        if (!text) {
+            return "";
+        }
+        var result = "";
+        for (var i = 0; i < text.length; i += lineLength) {
+            result += text.substring(i, i + lineLength) + "\n";
+        }
+        return result.slice(0, -1);
+    }
 
     Column {
-        anchors.fill: parent
+        id: contentColumn
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
         anchors.margins: 16
         spacing: 8
         visible: root.filePath !== ""
@@ -33,12 +48,17 @@ Rectangle {
         }
 
         GridLayout {
-            columns: 2
+            columns: 4
             columnSpacing: 20
             rowSpacing: 8
             // NAME
             Text { text: "Name:"; color: "#aaaaaa" }
-            Text { text: root.fileName; color: "white" }
+            Text {
+                text: root.formatLongText(root.fileName, 40)
+                color: "white"
+                Layout.fillWidth: true
+                Layout.rightMargin: 60
+            }
 
             // TYPE
             Text { text: "Type:"; color: "#aaaaaa" }
@@ -54,16 +74,19 @@ Rectangle {
 
             // LAST MODIFIED
             Text { text: "Last modified:"; color: "#aaaaaa" }
-            Text { text: root.lastModified; color: "white" }
+            Text { text: root.formatLongText(root.lastModified, 40); color: "white" }
 
             // PATH
             Text { text: "Path:"; color: "#aaaaaa" }
             Text {
-                text: root.filePath
+                text: root.formatLongText(root.filePath, 45)
                 color: "white"
-                elide: Text.ElideMiddle
-                wrapMode: Text.NoWrap
+                Layout.fillWidth: true
             }
+
+            // CORRUPTED
+            Text { text: "Corrupted:"; color: "#aaaaaa" }
+            Text { text: root.isCorrupted ? "Yes" : "No"; color: "white" }
         }
     }
 }

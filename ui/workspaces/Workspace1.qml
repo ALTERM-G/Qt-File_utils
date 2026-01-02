@@ -6,8 +6,6 @@ import "../components"
 Rectangle {
     anchors.fill: parent
     color: "#222222"
-    anchors.topMargin: 40
-    property var filedialog
     property ListModel outputFormats
     property var updateOutputFormats
     property bool isConverting
@@ -39,66 +37,66 @@ Rectangle {
         z: isConverting ? 20 : 0
     }
 
-    DropZone {
-        id: dropzone
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-    }
-
-    ChooseFileButton {
-        id: chooseFileButton
-        dialog: filedialog
-        anchors.bottom: dropzone.top
-        anchors.bottomMargin: 20
-        anchors.horizontalCenter: parent.horizontalCenter
-    }
-
-    CustomComboBox {
-        id: comboBox
-        width: 200
-        anchors.bottom: dropzone.top
-        anchors.bottomMargin: 20
+    Column {
+        anchors.top: parent.top
         anchors.left: parent.left
-        anchors.leftMargin: 60
-        model: ["Video", "Image", "Audio", "Document", "Vector"]
-        hoverEnabled: !isConverting
-        onCurrentTextChanged: {
-            if (updateOutputFormats) updateOutputFormats(currentText)
-        }
-    }
-
-    CustomComboBox {
-        id: outputComboBox
-        width: 200
-        model: outputFormats
-        textRole: "name"
-        enabled: outputFormats.count > 0
-        anchors.bottom: dropzone.top
-        anchors.bottomMargin: 20
         anchors.right: parent.right
-        anchors.rightMargin: 60
-        hoverEnabled: !isConverting
-    }
+        anchors.topMargin: 60
+        spacing: 15
 
-    ConvertButton {
-        id: convertButton
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottomMargin: 20
-        onPressed: {
-            if (!controller) {
-                console.log("Controller is not assigned!")
-                return
+        Row {
+            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: 40
+
+            CustomComboBox {
+                id: comboBox
+                width: 200
+                model: ["Video", "Image", "Audio", "Document", "Vector"]
+                hoverEnabled: !isConverting
+                onCurrentTextChanged: {
+                    if (updateOutputFormats) updateOutputFormats(currentText)
+                }
             }
 
-            if (dropzone.droppedFile && comboBox.currentText && outputComboBox.currentText) {
-                controller.convert(
-                    dropzone.droppedFile,
-                    comboBox.currentText,
-                    outputComboBox.currentText
-                )
-            } else {
-                console.log("Select a file, type, and output format first")
+            ChooseFileButton {
+                id: chooseFileButton
+                dialog: filedialog
+            }
+
+            CustomComboBox {
+                id: outputComboBox
+                width: 200
+                model: outputFormats
+                textRole: "name"
+                enabled: outputFormats.count > 0
+                hoverEnabled: !isConverting
+            }
+        }
+
+        DropZone {
+            id: dropzone
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+        ConvertButton {
+            id: convertButton
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.topMargin: 20
+            onPressed: {
+                if (!controller) {
+                    console.log("Controller is not assigned!")
+                    return
+                }
+
+                if (dropzone.droppedFile && comboBox.currentText && outputComboBox.currentText) {
+                    controller.convert(
+                        dropzone.droppedFile,
+                        comboBox.currentText,
+                        outputComboBox.currentText
+                    )
+                } else {
+                    console.log("Select a file, type, and output format first")
+                }
             }
         }
     }
