@@ -116,11 +116,4 @@ Rectangle {
             updateOutputFormats(comboBox.currentText)
         }
     }
-
-    Shortcut {
-        sequence: "Return"
-        onActivated: {
-            if (!isConverting) convertButton.pressed()
-        }
-    }
 }

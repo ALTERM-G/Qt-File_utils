@@ -3,3 +3,4 @@ Pillow
 pypdf
 python-docx
 fpdf
+py7zr

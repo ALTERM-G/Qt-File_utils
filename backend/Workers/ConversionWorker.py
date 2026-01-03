@@ -3,7 +3,7 @@ import os
 from PySide6.QtCore import QObject, Signal, Slot
 
 
-class ConvertionWorker(QObject):
+class ConversionWorker(QObject):
     finished = Signal(str)
     error = Signal(str)
 
@@ -14,7 +14,7 @@ class ConvertionWorker(QObject):
         self.output_format = output_format
 
     @Slot()
-    def run_convertion(self):
+    def run_conversion(self):
         try:
             ext = self.output_format
             if not ext.startswith("."):

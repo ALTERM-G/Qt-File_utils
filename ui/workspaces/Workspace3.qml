@@ -29,17 +29,20 @@ Rectangle {
 
         DropZone {
             id: dropzone
-            dropMode: dropzone.fileOnly
+            multiFile: true
         }
 
         CustomButton {
+            id: compressButton
             buttonText: "Compress"
             anchors.horizontalCenter: parent.horizontalCenter
             onPressed: {
-                if (dropzone.droppedFile && combobox.currentText) {
-                    var folder = dropzone.droppedFile.substring(0, dropzone.droppedFile.lastIndexOf("/"))
+                if (dropzone.droppedFiles.length > 0 && combobox.currentText) {
+                    var lastFile = dropzone.droppedFiles[dropzone.droppedFiles.length - 1]
+                    var folder = lastFile.substring(0, lastFile.lastIndexOf("/"))
+
                     controller.run_compression(
-                        dropzone.droppedFile,
+                        dropzone.droppedFiles,
                         folder,
                         combobox.currentText
                     )

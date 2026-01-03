@@ -47,9 +47,8 @@ Rectangle {
     property string fileTypeLabel: ""
     property InfoPanel infoPanel
     property int filesCount: 0
-    readonly property int fileOnly: 0
-    readonly property int multiFile: 1
-    property int dropMode: fileOnly
+    property bool multiFile: false
+    property var droppedFiles: []
 
     HoverHandler {
         acceptedDevices: PointerDevice.Mouse
@@ -129,7 +128,7 @@ Rectangle {
             border_canvas.requestPaint()
             if (!drop.hasUrls) return;
 
-            if (dropzone.dropMode === dropzone.fileOnly) {
+            if (!dropzone.multiFile) {
                 var urlString = drop.urls[0].toString();
                 var localPath = urlString.startsWith("file:///") ? urlString.substring(7)
                               : urlString.startsWith("file://") ? urlString.substring(6)
@@ -139,6 +138,7 @@ Rectangle {
                 if (info.isDir) return;
 
                 dropzone.droppedFile = localPath;
+                dropzone.droppedFiles = [localPath];
                 var fileType = Data.extensionToTypeMap[info.extension] ?? "Unknown";
                 dropzone.fileTypeLabel = fileType + (info.extension ? " (." + info.extension + ")" : "");
                 dropzone.fileDropped(info.path, fileType);
@@ -152,31 +152,32 @@ Rectangle {
                     dropzone.infoPanel.lastModified = info.lastModified;
                 }
 
-            } else if (dropzone.dropMode === dropzone.multiFile) {
+            } else {
+                var files = []
                 var count = 0;
+
                 for (var i = 0; i < drop.urls.length; i++) {
-                    var urlString = drop.urls[i].toString();
+                    var urlString = drop.urls[i].toString()
                     var localPath = urlString.startsWith("file:///") ? urlString.substring(7)
                                   : urlString.startsWith("file://") ? urlString.substring(6)
-                                  : urlString;
+                                  : urlString
 
-                    var info = fileHelper.getInfo(localPath);
-                    if (info.isDir) continue;
+                    var info = fileHelper.getInfo(localPath)
+                    if (info.isDir) continue
 
-                    var fileType = Data.extensionToTypeMap[info.extension] ?? "Unknown";
-                    dropzone.fileDropped(info.path, fileType);
-                    count++;
+                    files.push(localPath)
 
-                    if (dropzone.infoPanel) {
-                        dropzone.infoPanel.filePath = info.path;
-                        dropzone.infoPanel.fileName = info.name;
-                        dropzone.infoPanel.fileType = fileType;
-                        dropzone.infoPanel.fileExtension = info.extension;
-                        dropzone.infoPanel.fileSize = info.size;
-                        dropzone.infoPanel.lastModified = info.lastModified;
-                    }
+                    var fileType = Data.extensionToTypeMap[info.extension] ?? "Unknown"
+                    dropzone.fileDropped(localPath, fileType)
+                    count++
                 }
-                dropzone.filesCount = count;
+
+                dropzone.droppedFiles = files
+                dropzone.filesCount = count
+
+                if (count > 0) {
+                    dropzone.droppedFile = count + " files selected"
+                }
             }
         }
     }

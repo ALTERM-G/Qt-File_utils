@@ -114,18 +114,18 @@ ApplicationWindow {
     Connections {
         target: controller
 
-        function onConversionStarted() {
-            console.log("Conversion started...");
+        function onWorkingStarted() {
+            console.log("Working...");
             window.isConverting = true
         }
 
-        function onConversionFinished(resultPath) {
-            console.log("Conversion finished! Output: " + resultPath);
+        function onWorkingFinished(resultPath) {
+            console.log("Finished! Output: " + resultPath);
             window.isConverting = false
         }
 
-        function onConversionError(errorMessage) {
-            console.log("Conversion error: " + errorMessage);
+        function onWorkingError(errorMessage) {
+            console.log("Error: " + errorMessage);
             window.isConverting = false
         }
     }

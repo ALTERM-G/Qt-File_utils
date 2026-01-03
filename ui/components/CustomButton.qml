@@ -11,6 +11,10 @@ Rectangle {
     signal pressed
     property string buttonText
 
+    function doPress() {
+        pressed()
+    }
+
     Text {
         anchors.centerIn: parent
         text: convertButton.buttonText
@@ -24,7 +28,7 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        onClicked: convertButton.pressed()
+        onClicked: convertButton.doPress()
     }
 
     Behavior on color {
