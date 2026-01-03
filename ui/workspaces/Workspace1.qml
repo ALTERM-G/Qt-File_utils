@@ -8,23 +8,23 @@ Rectangle {
     color: "#222222"
     property ListModel outputFormats
     property var updateOutputFormats
-    property bool isConverting
+    property bool isWorking
 
     Rectangle {
         id: overlay
         anchors.fill: parent
         color: "black"
-        opacity: isConverting ? 0.4 : 0
+        opacity: isWorking ? 0.4 : 0
 
         Behavior on opacity {
             NumberAnimation { duration: 200 }
         }
-        visible: isConverting
-        z: isConverting ? 19 : 0
+        visible: isWorking
+        z: isWorking ? 19 : 0
 
         MouseArea {
             anchors.fill: parent
-            enabled: isConverting
+            enabled: isWorking
             hoverEnabled: true
             acceptedButtons: Qt.AllButtons
         }
@@ -32,9 +32,9 @@ Rectangle {
 
     CustomBusyIndicator {
         anchors.centerIn: parent
-        active: isConverting
-        visible: isConverting
-        z: isConverting ? 20 : 0
+        active: isWorking
+        visible: isWorking
+        z: isWorking ? 20 : 0
     }
 
     Column {
@@ -52,7 +52,7 @@ Rectangle {
                 id: comboBox
                 width: 200
                 model: ["Video", "Image", "Audio", "Document", "Vector"]
-                hoverEnabled: !isConverting
+                hoverEnabled: !isWorking
                 onCurrentTextChanged: {
                     if (updateOutputFormats) updateOutputFormats(currentText)
                 }
@@ -69,7 +69,7 @@ Rectangle {
                 model: outputFormats
                 textRole: "name"
                 enabled: outputFormats.count > 0
-                hoverEnabled: !isConverting
+                hoverEnabled: !isWorking
             }
         }
 

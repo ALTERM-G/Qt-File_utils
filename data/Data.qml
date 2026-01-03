@@ -102,7 +102,7 @@ QtObject {
         "Convert Files",
         "File Info",
         "Compress Files",
-        "Extract Files",
+        "Extract Media Files",
         "Settings"
     ])
 }

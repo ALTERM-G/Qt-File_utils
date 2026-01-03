@@ -15,7 +15,7 @@ ApplicationWindow {
     minimumHeight: height
     maximumHeight: height
     title: "File Converter"
-    property bool isConverting: false
+    property bool isWorking: false
     property int currentWorkspace: 1
 
     ListModel {
@@ -24,7 +24,7 @@ ApplicationWindow {
 
     Workspace1 {
         id: workspace_1
-        isConverting: window.isConverting
+        isWorking: window.isWorking
         updateOutputFormats: window.updateOutputFormats
         outputFormats: outputFormatsModel
         visible: currentWorkspace === 1
@@ -37,6 +37,7 @@ ApplicationWindow {
 
     Workspace3 {
         id: workspace_3
+        isWorking: window.isWorking
         visible: currentWorkspace === 3
     }
 
@@ -116,17 +117,17 @@ ApplicationWindow {
 
         function onWorkingStarted() {
             console.log("Working...");
-            window.isConverting = true
+            window.isWorking = true
         }
 
         function onWorkingFinished(resultPath) {
             console.log("Finished! Output: " + resultPath);
-            window.isConverting = false
+            window.isWorking = false
         }
 
         function onWorkingError(errorMessage) {
             console.log("Error: " + errorMessage);
-            window.isConverting = false
+            window.isWorking = false
         }
     }
 }

@@ -5,6 +5,34 @@ import "../components"
 Rectangle {
     anchors.fill: parent
     color: "#222222"
+    property bool isWorking: false
+
+    Rectangle {
+        id: overlay
+        anchors.fill: parent
+        color: "black"
+        opacity: isWorking ? 0.4 : 0
+
+        Behavior on opacity {
+            NumberAnimation { duration: 200 }
+        }
+        visible: isWorking
+        z: isWorking ? 19 : 0
+
+        MouseArea {
+            anchors.fill: parent
+            enabled: isWorking
+            hoverEnabled: true
+            acceptedButtons: Qt.AllButtons
+        }
+    }
+
+    CustomBusyIndicator {
+        anchors.centerIn: parent
+        active: isWorking
+        visible: isWorking
+        z: isWorking ? 20 : 0
+    }
 
     Column {
         anchors.horizontalCenter: parent.horizontalCenter
