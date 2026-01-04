@@ -28,6 +28,7 @@ Rectangle {
             text: "Choose File"
             font.pixelSize: 18
             font.family: "JetBrains Mono"
+            font.bold: true
             color: "#ffffff"
         }
     }

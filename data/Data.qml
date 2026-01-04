@@ -100,9 +100,8 @@ QtObject {
 
     readonly property var workspaceTitles: ([
         "Convert Files",
-        "File Info",
         "Compress Files",
         "Extract Media Files",
-        "Settings"
+        "File Info"
     ])
 }

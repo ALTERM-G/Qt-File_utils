@@ -43,11 +43,6 @@ ApplicationWindow {
         visible: currentWorkspace === 4
     }
 
-    Workspace5 {
-        id: workspace_5
-        visible: currentWorkspace === 5
-    }
-
     TopBar {
         id: topBar
         currentWorkspace: window.currentWorkspace
@@ -103,9 +98,5 @@ ApplicationWindow {
     Shortcut {
         sequence: "Ctrl+4"
         onActivated: window.currentWorkspace = 4
-    }
-    Shortcut {
-        sequence: "Ctrl+5"
-        onActivated: window.currentWorkspace = 5
     }
 }

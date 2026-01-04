@@ -9,6 +9,7 @@ Rectangle {
     property ListModel outputFormats
     property var updateOutputFormats
     property bool isConverting
+    property alias dropzone: dropzone
 
     Rectangle {
         id: overlay
@@ -119,7 +120,10 @@ Rectangle {
     Connections {
         target: controller
         function onConversionStarted() { workspace_1.isConverting = true }
-        function onConversionFinished(resultPath) { workspace_1.isConverting = false }
-        function onConversionError(errorMessage) { workspace_1.isConverting = false }
+        function onConversionFinished(resultPath) {
+            workspace_1.isConverting = false
+            workspace_1.dropzone.showSuccess("Output: " + resultPath)
+        }
+        function onConversionError(errorMessage) { workspace_1.isConverting = false; workspace_1.dropzone.showError(errorMessage)}
     }
 }

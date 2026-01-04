@@ -25,7 +25,7 @@ Rectangle {
         spacing: 10
 
         Repeater {
-            model: 5
+            model: 4
 
             Button {
                 text: (index + 1).toString()

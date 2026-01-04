@@ -60,6 +60,9 @@ class ExtractionWorker(QObject):
         elif self.extraction_type == "frames":
             return extract_frames(path, output_path)
         elif self.extraction_type == "subtitles":
-            return extract_subtitles(path, output_path)
+            result = extract_subtitles(path, output_path)
+            if result is None:
+                raise Exception("No subtitles found in the video file.")
+            return result
         else:
             raise ValueError(f"Unsupported extraction type: {self.extraction_type}")

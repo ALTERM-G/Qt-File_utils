@@ -5,8 +5,35 @@ import "../components"
 Rectangle {
     anchors.fill: parent
     color: "#222222"
-    property var controller
-    property var updateOutputFormats
+    property bool isCompressing
+    property alias dropzone: dropzone
+
+    Rectangle {
+        id: overlay
+        anchors.fill: parent
+        color: "black"
+        opacity: isCompressing ? 0.4 : 0
+
+        Behavior on opacity {
+            NumberAnimation { duration: 200 }
+        }
+        visible: isCompressing
+        z: isCompressing ? 19 : 0
+
+        MouseArea {
+            anchors.fill: parent
+            enabled: isCompressing
+            hoverEnabled: true
+            acceptedButtons: Qt.AllButtons
+        }
+    }
+
+    CustomBusyIndicator {
+        anchors.centerIn: parent
+        active: isCompressing
+        visible: isCompressing
+        z: isCompressing ? 20 : 0
+    }
 
     Column {
         anchors.horizontalCenter: parent.horizontalCenter
@@ -14,19 +41,45 @@ Rectangle {
         anchors.topMargin: 60
         spacing: 15
 
-        ChooseFileButton {
-            dialog: filedialog
+        Row {
             anchors.horizontalCenter: parent.horizontalCenter
+            spacing: 80
+
+            CustomComboBox {
+                id: combobox
+                model: ["zip", "rar", "7z"]
+            }
+
+            ChooseFileButton {
+                dialog: filedialog
+            }
         }
+
 
         DropZone {
             id: dropzone
-            height: 250
-            infoPanel: infoPanel
+            multiFile: true
         }
 
-        InfoPanel {
-            id: infoPanel
+        CustomButton {
+            id: compressButton
+            buttonText: "Compress"
+            anchors.horizontalCenter: parent.horizontalCenter
+            onPressed: {
+                if (dropzone.droppedFiles.length > 0 && combobox.currentText) {
+                    isCompressing = true
+                    var lastFile = dropzone.droppedFiles[dropzone.droppedFiles.length - 1]
+                    var folder = lastFile.substring(0, lastFile.lastIndexOf("/"))
+
+                    controller.run_compression(
+                        dropzone.droppedFiles,
+                        folder,
+                        combobox.currentText
+                    )
+                } else {
+                    console.log("Select a file and format first")
+                }
+            }
         }
     }
 
@@ -39,6 +92,19 @@ Rectangle {
         onAccepted: {
             var path = selectedFile.toString().replace("file://", "")
             dropzone.droppedFile = path
+        }
+    }
+
+    Connections {
+        target: controller
+        function onCompressionStarted() { workspace_2.isCompressing = true }
+        function onCompressionFinished(resultPath) {
+            workspace_2.isCompressing = false
+            workspace_2.dropzone.showSuccess("Output: " + resultPath)
+        }
+        function onCompressionError(errorMessage) {
+            workspace_2.isCompressing = false
+            workspace_2.dropzone.showError(errorMessage)
         }
     }
 }

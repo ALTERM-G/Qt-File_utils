@@ -20,6 +20,7 @@ Rectangle {
         text: convertButton.buttonText
         font.pixelSize: 18
         font.family: "JetBrains Mono"
+        font.bold: true
         color: "#ffffff"
     }
 

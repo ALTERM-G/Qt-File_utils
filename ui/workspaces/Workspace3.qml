@@ -5,23 +5,24 @@ import "../components"
 Rectangle {
     anchors.fill: parent
     color: "#222222"
-    property bool isCompressing: false
+    property bool isExtracting
+    property alias dropzone: dropzone
 
     Rectangle {
         id: overlay
         anchors.fill: parent
         color: "black"
-        opacity: isCompressing ? 0.4 : 0
+        opacity: isExtracting ? 0.4 : 0
 
         Behavior on opacity {
             NumberAnimation { duration: 200 }
         }
-        visible: isCompressing
-        z: isCompressing ? 19 : 0
+        visible: isExtracting
+        z: isExtracting ? 19 : 0
 
         MouseArea {
             anchors.fill: parent
-            enabled: isCompressing
+            enabled: isExtracting
             hoverEnabled: true
             acceptedButtons: Qt.AllButtons
         }
@@ -29,9 +30,9 @@ Rectangle {
 
     CustomBusyIndicator {
         anchors.centerIn: parent
-        active: isCompressing
-        visible: isCompressing
-        z: isCompressing ? 20 : 0
+        active: isExtracting
+        visible: isExtracting
+        z: isExtracting ? 20 : 0
     }
 
     Column {
@@ -46,7 +47,7 @@ Rectangle {
 
             CustomComboBox {
                 id: combobox
-                model: ["zip", "rar", "7z"]
+                model: ["audio", "frames", "subtitles"]
             }
 
             ChooseFileButton {
@@ -57,24 +58,32 @@ Rectangle {
 
         DropZone {
             id: dropzone
-            multiFile: true
         }
 
         CustomButton {
             id: compressButton
-            buttonText: "Compress"
+            buttonText: "Extract"
             anchors.horizontalCenter: parent.horizontalCenter
             onPressed: {
                 if (dropzone.droppedFiles.length > 0 && combobox.currentText) {
-                    isWorking = true
+                    isExtracting = true
                     var lastFile = dropzone.droppedFiles[dropzone.droppedFiles.length - 1]
                     var folder = lastFile.substring(0, lastFile.lastIndexOf("/"))
 
-                    controller.run_compression(
-                        dropzone.droppedFiles,
-                        folder,
-                        combobox.currentText
-                    )
+                    var inputFile = dropzone.droppedFile;
+                    var baseName = inputFile.split("/").pop().split(".")[0];
+                    var parentFolder = inputFile.substring(0, inputFile.lastIndexOf("/"));
+
+                    if (combobox.currentText === "frames") {
+                        var outputFolder = parentFolder + "/" + baseName + "_frames/";
+                        controller.run_extraction(inputFile, outputFolder, "frames");
+                    } else if (combobox.currentText === "audio") {
+                        var outputFile = parentFolder + "/" + baseName + ".mp3";
+                        controller.run_extraction(inputFile, outputFile, "audio");
+                    } else if (combobox.currentText === "subtitles") {
+                        var outputFile = parentFolder + "/" + baseName + ".srt";
+                        controller.run_extraction(inputFile, outputFile, "subtitles");
+                    }
                 } else {
                     console.log("Select a file and format first")
                 }
@@ -86,8 +95,7 @@ Rectangle {
         id: filedialog
         title: "Select a file"
         fileMode: FileDialog.OpenFile
-        nameFilters: ["Images (*.png *.jpg *.bmp)", "Documents (*.pdf *.docx)"]
-
+        nameFilters: ["Videos (*.mp4 *.mkv *.mov *.avi)"]
         onAccepted: {
             var path = selectedFile.toString().replace("file://", "")
             dropzone.droppedFile = path
@@ -96,8 +104,14 @@ Rectangle {
 
     Connections {
         target: controller
-        function onCompressionStarted() { workspace_3.isCompressing = true }
-        function onCompressionFinished(resultPath) { workspace_3.isCompressing = false }
-        function onCompressionError(errorMessage) { workspace_3.isCompressing = false }
+        function onExtractionStarted() { workspace_3.isExtracting = true }
+        function onExtractionFinished(resultPath) {
+            workspace_3.isExtracting = false
+            workspace_3.dropzone.showSuccess("Output: " + resultPath)
+        }
+        function onExtractionError(errorMessage) {
+            workspace_3.isExtracting = false
+            workspace_3.dropzone.showError(errorMessage)
+        }
     }
 }

@@ -49,6 +49,8 @@ Rectangle {
     property int filesCount: 0
     property bool multiFile: false
     property var droppedFiles: []
+    property string errorMessage: ""
+    property string successMessage: ""
 
     HoverHandler {
         acceptedDevices: PointerDevice.Mouse
@@ -96,6 +98,7 @@ Rectangle {
 
         Text {
             id: filePathText
+            anchors.horizontalCenter: parent.horizontalCenter
             width: dropzone.width - 40
             font.family: "JetBrains Mono"
             font.pixelSize: 20
@@ -104,7 +107,35 @@ Rectangle {
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
             text: dropzone.droppedFile
+            visible: dropzone.errorMessage === ""
+        }
+
+        Text {
+            id: errorText
             anchors.horizontalCenter: parent.horizontalCenter
+            width: dropzone.width - 40
+            color: "#dd1124"
+            font.family: "JetBrains Mono"
+            font.pixelSize: 16
+            font.bold: true
+            visible: dropzone.errorMessage !== ""
+            text: dropzone.errorMessage
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.Wrap
+        }
+
+        Text {
+            id: successText
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: dropzone.width - 40
+            color: "#4CAF50"
+            font.family: "JetBrains Mono"
+            font.pixelSize: 16
+            font.bold: true
+            visible: dropzone.successMessage !== ""
+            text: dropzone.successMessage
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.Wrap
         }
     }
 
@@ -125,6 +156,8 @@ Rectangle {
 
         onDropped: drop => {
             dropzone.hovered = false
+            dropzone.errorMessage = ""
+            dropzone.successMessage = ""
             border_canvas.requestPaint()
             if (!drop.hasUrls) return;
 
@@ -180,5 +213,16 @@ Rectangle {
                 }
             }
         }
+    }
+
+    function showError(msg) {
+        errorMessage = msg
+        successMessage = ""
+        border_canvas.requestPaint()
+    }
+
+    function showSuccess(msg) {
+        successMessage = msg
+        errorMessage = ""
     }
 }
