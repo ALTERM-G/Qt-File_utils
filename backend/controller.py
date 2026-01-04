@@ -2,9 +2,9 @@ import os
 from PySide6.QtCore import QObject, QThread, Signal, Slot
 from PySide6.QtQml import QJSValue
 
-from backend.Workers.CompressionWorker import CompressionWorker
-from backend.Workers.ConversionWorker import ConversionWorker
-from backend.Workers.ExtractionWorker import ExtractionWorker
+from backend.Workers.compression_worker import CompressionWorker
+from backend.Workers.conversion_worker import ConversionWorker
+from backend.Workers.extraction_worker import ExtractionWorker
 
 class Controller(QObject):
     conversionStarted = Signal()

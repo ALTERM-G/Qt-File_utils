@@ -6,7 +6,7 @@ from PySide6.QtCore import QUrl
 from PySide6.QtGui import QGuiApplication, QIcon
 from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterSingletonType
 
-from backend.Controller import Controller
+from backend.controller import Controller
 from backend.FileInfo.file_info import FileHelper
 
 
