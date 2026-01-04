@@ -43,6 +43,7 @@ ApplicationWindow {
 
     Workspace4 {
         id: workspace_4
+        isWorking: window.isWorking
         visible: currentWorkspace === 4
     }
 
@@ -67,7 +68,7 @@ ApplicationWindow {
         else if (type === "Image")
             formats = [".png", ".jpg", ".webp", ".bmp"]
         else if (type === "Audio")
-            formats = [".mp3", ".wav", ".flac", ".ogg"]
+            formats = [".mp3", ".wav", ".flac", ".ogg", ".aac", ".m4a", ".opus"]
         else if (type === "Document")
             formats = [".txt", ".md", ".html", ".rtf", ".csv", ".docx", ".pdf"]
 

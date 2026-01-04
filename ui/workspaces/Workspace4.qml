@@ -61,7 +61,7 @@ Rectangle {
 
         CustomButton {
             id: compressButton
-            buttonText: "extract"
+            buttonText: "Extract"
             anchors.horizontalCenter: parent.horizontalCenter
             onPressed: {
                 if (dropzone.droppedFiles.length > 0 && combobox.currentText) {
@@ -70,8 +70,8 @@ Rectangle {
 
                     controller.run_extraction(
                         dropzone.droppedFile,
-                        comboBox.currentText,
-                        outputComboBox.currentText
+                        folder,
+                        combobox.currentText
                     )
                 } else {
                     console.log("Select a file and format first")

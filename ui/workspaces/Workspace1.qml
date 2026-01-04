@@ -86,7 +86,7 @@ Rectangle {
             onPressed: {
 
                 if (dropzone.droppedFile && comboBox.currentText && outputComboBox.currentText) {
-                    controller.convert(
+                    controller.run_conversion(
                         dropzone.droppedFile,
                         comboBox.currentText,
                         outputComboBox.currentText
@@ -103,7 +103,6 @@ Rectangle {
         title: "Select a file"
         fileMode: FileDialog.OpenFile
         nameFilters: ["Images (*.png *.jpg *.bmp)", "Documents (*.pdf *.docx)"]
-
         onAccepted: {
             var path = selectedFile.toString().replace("file://", "")
             dropzone.droppedFile = path
