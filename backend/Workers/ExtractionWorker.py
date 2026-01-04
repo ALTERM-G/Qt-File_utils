@@ -41,7 +41,11 @@ class ExtractionWorker(QObject):
             if self.extraction_type == "audio":
                 output_path = os.path.join(folder, f"{base_name}.aac")
             elif self.extraction_type == "frames":
-                output_path = os.path.join(folder, f"{base_name}_%03d.png")
+                os.makedirs(self.output_path, exist_ok=True)
+                output_pattern = os.path.join(self.output_path, "frame_%06d.png")
+                cmd = ["ffmpeg", "-i", path, output_pattern]
+                subprocess.run(cmd, check=True)
+                return self.output_path
             elif self.extraction_type == "subtitles":
                 output_path = os.path.join(folder, f"{base_name}.srt")
             else:

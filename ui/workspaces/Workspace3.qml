@@ -5,23 +5,23 @@ import "../components"
 Rectangle {
     anchors.fill: parent
     color: "#222222"
-    property bool isWorking: false
+    property bool isCompressing: false
 
     Rectangle {
         id: overlay
         anchors.fill: parent
         color: "black"
-        opacity: isWorking ? 0.4 : 0
+        opacity: isCompressing ? 0.4 : 0
 
         Behavior on opacity {
             NumberAnimation { duration: 200 }
         }
-        visible: isWorking
-        z: isWorking ? 19 : 0
+        visible: isCompressing
+        z: isCompressing ? 19 : 0
 
         MouseArea {
             anchors.fill: parent
-            enabled: isWorking
+            enabled: isCompressing
             hoverEnabled: true
             acceptedButtons: Qt.AllButtons
         }
@@ -29,9 +29,9 @@ Rectangle {
 
     CustomBusyIndicator {
         anchors.centerIn: parent
-        active: isWorking
-        visible: isWorking
-        z: isWorking ? 20 : 0
+        active: isCompressing
+        visible: isCompressing
+        z: isCompressing ? 20 : 0
     }
 
     Column {
@@ -66,6 +66,7 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             onPressed: {
                 if (dropzone.droppedFiles.length > 0 && combobox.currentText) {
+                    isWorking = true
                     var lastFile = dropzone.droppedFiles[dropzone.droppedFiles.length - 1]
                     var folder = lastFile.substring(0, lastFile.lastIndexOf("/"))
 
@@ -91,5 +92,12 @@ Rectangle {
             var path = selectedFile.toString().replace("file://", "")
             dropzone.droppedFile = path
         }
+    }
+
+    Connections {
+        target: controller
+        function onCompressionStarted() { workspace_3.isCompressing = true }
+        function onCompressionFinished(resultPath) { workspace_3.isCompressing = false }
+        function onCompressionError(errorMessage) { workspace_3.isCompressing = false }
     }
 }

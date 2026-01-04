@@ -5,23 +5,23 @@ import "../components"
 Rectangle {
     anchors.fill: parent
     color: "#222222"
-    property bool isWorking: false
+    property bool isExtracting: false
 
     Rectangle {
         id: overlay
         anchors.fill: parent
         color: "black"
-        opacity: isWorking ? 0.4 : 0
+        opacity: isExtracting ? 0.4 : 0
 
         Behavior on opacity {
             NumberAnimation { duration: 200 }
         }
-        visible: isWorking
-        z: isWorking ? 19 : 0
+        visible: isExtracting
+        z: isExtracting ? 19 : 0
 
         MouseArea {
             anchors.fill: parent
-            enabled: isWorking
+            enabled: isExtracting
             hoverEnabled: true
             acceptedButtons: Qt.AllButtons
         }
@@ -29,9 +29,9 @@ Rectangle {
 
     CustomBusyIndicator {
         anchors.centerIn: parent
-        active: isWorking
-        visible: isWorking
-        z: isWorking ? 20 : 0
+        active: isExtracting
+        visible: isExtracting
+        z: isExtracting ? 20 : 0
     }
 
     Column {
@@ -65,14 +65,24 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             onPressed: {
                 if (dropzone.droppedFiles.length > 0 && combobox.currentText) {
+                    isExtracting = true
                     var lastFile = dropzone.droppedFiles[dropzone.droppedFiles.length - 1]
                     var folder = lastFile.substring(0, lastFile.lastIndexOf("/"))
 
-                    controller.run_extraction(
-                        dropzone.droppedFile,
-                        folder,
-                        combobox.currentText
-                    )
+                    var inputFile = dropzone.droppedFile;
+                    var baseName = inputFile.split("/").pop().split(".")[0];
+                    var parentFolder = inputFile.substring(0, inputFile.lastIndexOf("/"));
+
+                    if (combobox.currentText === "frames") {
+                        var outputFolder = parentFolder + "/" + baseName + "_frames/";
+                        controller.run_extraction(inputFile, outputFolder, "frames");
+                    } else if (combobox.currentText === "audio") {
+                        var outputFile = parentFolder + "/" + baseName + ".mp3";
+                        controller.run_extraction(inputFile, outputFile, "audio");
+                    } else if (combobox.currentText === "subtitles") {
+                        var outputFile = parentFolder + "/" + baseName + ".srt";
+                        controller.run_extraction(inputFile, outputFile, "subtitles");
+                    }
                 } else {
                     console.log("Select a file and format first")
                 }
@@ -89,5 +99,12 @@ Rectangle {
             var path = selectedFile.toString().replace("file://", "")
             dropzone.droppedFile = path
         }
+    }
+
+    Connections {
+        target: controller
+        function onExtractionStarted() { workspace_4.isExtracting = true }
+        function onExtractionFinished(resultPath) { workspace_4.isExtracting = false }
+        function onExtractionError(errorMessage) { workspace_4.isExtracting = false }
     }
 }

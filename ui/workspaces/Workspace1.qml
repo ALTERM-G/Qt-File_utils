@@ -8,23 +8,23 @@ Rectangle {
     color: "#222222"
     property ListModel outputFormats
     property var updateOutputFormats
-    property bool isWorking
+    property bool isConverting
 
     Rectangle {
         id: overlay
         anchors.fill: parent
         color: "black"
-        opacity: isWorking ? 0.4 : 0
+        opacity: isConverting ? 0.4 : 0
 
         Behavior on opacity {
             NumberAnimation { duration: 200 }
         }
-        visible: isWorking
-        z: isWorking ? 19 : 0
+        visible: isConverting
+        z: isConverting ? 19 : 0
 
         MouseArea {
             anchors.fill: parent
-            enabled: isWorking
+            enabled: isConverting
             hoverEnabled: true
             acceptedButtons: Qt.AllButtons
         }
@@ -32,9 +32,9 @@ Rectangle {
 
     CustomBusyIndicator {
         anchors.centerIn: parent
-        active: isWorking
-        visible: isWorking
-        z: isWorking ? 20 : 0
+        active: isConverting
+        visible: isConverting
+        z: isConverting ? 20 : 0
     }
 
     Column {
@@ -52,7 +52,7 @@ Rectangle {
                 id: comboBox
                 width: 200
                 model: ["Video", "Image", "Audio", "Document", "Vector"]
-                hoverEnabled: !isWorking
+                hoverEnabled: !isConverting
                 onCurrentTextChanged: {
                     if (updateOutputFormats) updateOutputFormats(currentText)
                 }
@@ -69,7 +69,7 @@ Rectangle {
                 model: outputFormats
                 textRole: "name"
                 enabled: outputFormats.count > 0
-                hoverEnabled: !isWorking
+                hoverEnabled: !isConverting
             }
         }
 
@@ -84,8 +84,8 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.topMargin: 20
             onPressed: {
-
                 if (dropzone.droppedFile && comboBox.currentText && outputComboBox.currentText) {
+                    isConverting = true
                     controller.run_conversion(
                         dropzone.droppedFile,
                         comboBox.currentText,
@@ -114,5 +114,12 @@ Rectangle {
         if (updateOutputFormats) {
             updateOutputFormats(comboBox.currentText)
         }
+    }
+
+    Connections {
+        target: controller
+        function onConversionStarted() { workspace_1.isConverting = true }
+        function onConversionFinished(resultPath) { workspace_1.isConverting = false }
+        function onConversionError(errorMessage) { workspace_1.isConverting = false }
     }
 }

@@ -15,7 +15,6 @@ ApplicationWindow {
     minimumHeight: height
     maximumHeight: height
     title: "File Converter"
-    property bool isWorking: false
     property int currentWorkspace: 1
 
     ListModel {
@@ -24,7 +23,6 @@ ApplicationWindow {
 
     Workspace1 {
         id: workspace_1
-        isWorking: window.isWorking
         updateOutputFormats: window.updateOutputFormats
         outputFormats: outputFormatsModel
         visible: currentWorkspace === 1
@@ -37,13 +35,11 @@ ApplicationWindow {
 
     Workspace3 {
         id: workspace_3
-        isWorking: window.isWorking
         visible: currentWorkspace === 3
     }
 
     Workspace4 {
         id: workspace_4
-        isWorking: window.isWorking
         visible: currentWorkspace === 4
     }
 
@@ -111,24 +107,5 @@ ApplicationWindow {
     Shortcut {
         sequence: "Ctrl+5"
         onActivated: window.currentWorkspace = 5
-    }
-
-    Connections {
-        target: controller
-
-        function onWorkingStarted() {
-            console.log("Working...");
-            window.isWorking = true
-        }
-
-        function onWorkingFinished(resultPath) {
-            console.log("Finished! Output: " + resultPath);
-            window.isWorking = false
-        }
-
-        function onWorkingError(errorMessage) {
-            console.log("Error: " + errorMessage);
-            window.isWorking = false
-        }
     }
 }
