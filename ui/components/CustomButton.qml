@@ -11,6 +11,9 @@ Rectangle {
     signal pressed
     property string buttonText
 
+    Keys.onReturnPressed: doPress()
+    Keys.onEnterPressed: doPress()
+
     function doPress() {
         pressed()
     }

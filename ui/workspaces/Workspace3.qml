@@ -5,14 +5,15 @@ import "../components"
 Rectangle {
     anchors.fill: parent
     color: "#222222"
+
     property bool isExtracting
     property alias dropzone: dropzone
 
     Rectangle {
         id: overlay
         anchors.fill: parent
-        color: "black"
-        opacity: isExtracting ? 0.4 : 0
+        color: "#ffffff"
+        opacity: isExtracting ? 0.2 : 0
 
         Behavior on opacity {
             NumberAnimation { duration: 200 }

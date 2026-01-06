@@ -15,12 +15,10 @@ Rectangle {
         onPaint: {
             var ctx = getContext("2d");
             ctx.clearRect(0, 0, width, height);
-
             ctx.lineWidth = 4;
-            ctx.strokeStyle = dropzone.hovered ? "#dd1124" : "#888888";
-            ctx.setLineDash(dropzone.hovered ? [] : [6, 3]);
+            ctx.strokeStyle = dropzone.dragHovered ? "#dd1124" : "#888888";
+            ctx.setLineDash(dropzone.dragHovered ? [] : [6, 3]);
             ctx.lineJoin = "round";
-
             var r = dropzone.radius;
             var i = ctx.lineWidth / 2;
             var w = width - 2*i;
@@ -42,6 +40,7 @@ Rectangle {
     }
 
     signal fileDropped(string path, string type)
+    signal dropped
     property bool hovered: false
     property string droppedFile: ""
     property string fileTypeLabel: ""
@@ -51,6 +50,7 @@ Rectangle {
     property var droppedFiles: []
     property string errorMessage: ""
     property string successMessage: ""
+    property bool dragHovered: false
 
     HoverHandler {
         acceptedDevices: PointerDevice.Mouse
@@ -144,17 +144,18 @@ Rectangle {
 
         onEntered: function(drag) {
             if (drag.hasUrls) {
-                dropzone.hovered = true
+                dropzone.dragHovered = true
                 border_canvas.requestPaint()
             }
         }
 
         onExited: {
-            dropzone.hovered = false
+            dropzone.dragHovered = false
             border_canvas.requestPaint()
         }
 
         onDropped: drop => {
+            dropzone.dragHovered = false
             dropzone.hovered = false
             dropzone.errorMessage = ""
             dropzone.successMessage = ""

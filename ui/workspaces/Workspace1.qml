@@ -6,6 +6,7 @@ import "../components"
 Rectangle {
     anchors.fill: parent
     color: "#222222"
+
     property ListModel outputFormats
     property var updateOutputFormats
     property bool isConverting
@@ -14,8 +15,8 @@ Rectangle {
     Rectangle {
         id: overlay
         anchors.fill: parent
-        color: "black"
-        opacity: isConverting ? 0.4 : 0
+        color: "#ffffff"
+        opacity: isConverting ? 0.2 : 0
 
         Behavior on opacity {
             NumberAnimation { duration: 200 }
@@ -77,6 +78,14 @@ Rectangle {
         DropZone {
             id: dropzone
             anchors.horizontalCenter: parent.horizontalCenter
+            onFileDropped: (path, type) => {
+                for (var i = 0; i < comboBox.model.length; i++) {
+                    if (comboBox.model[i] === type) {
+                        comboBox.currentIndex = i
+                        break
+                    }
+                }
+            }
         }
 
         CustomButton {

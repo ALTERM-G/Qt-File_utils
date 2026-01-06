@@ -5,14 +5,15 @@ import "../components"
 Rectangle {
     anchors.fill: parent
     color: "#222222"
+
     property bool isCompressing
     property alias dropzone: dropzone
 
     Rectangle {
         id: overlay
         anchors.fill: parent
-        color: "black"
-        opacity: isCompressing ? 0.4 : 0
+        color: "#ffffff"
+        opacity: isCompressing ? 0.2 : 0
 
         Behavior on opacity {
             NumberAnimation { duration: 200 }
@@ -68,12 +69,9 @@ Rectangle {
             onPressed: {
                 if (dropzone.droppedFiles.length > 0 && combobox.currentText) {
                     isCompressing = true
-                    var lastFile = dropzone.droppedFiles[dropzone.droppedFiles.length - 1]
-                    var folder = lastFile.substring(0, lastFile.lastIndexOf("/"))
-
                     controller.run_compression(
                         dropzone.droppedFiles,
-                        folder,
+                        "", // Let backend handle the folder path
                         combobox.currentText
                     )
                 } else {

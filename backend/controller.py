@@ -76,12 +76,17 @@ class Controller(QObject):
 
         if isinstance(input_paths, list) and len(input_paths) > 1:
             name = "Compressed_Files"
+            reference_path = input_paths[0]
         else:
             path = input_paths if isinstance(input_paths, str) else input_paths[0]
+            reference_path = path
             if os.path.isdir(path):
                 name = os.path.basename(os.path.normpath(path))
             else:
                 name, _ = os.path.splitext(os.path.basename(path))
+
+        if not output_folder:
+            output_folder = os.path.dirname(os.path.abspath(reference_path))
 
         output_path = os.path.join(output_folder, f"{name}.{compression_format}")
 

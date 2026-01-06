@@ -15,6 +15,7 @@ ApplicationWindow {
     minimumHeight: height
     maximumHeight: height
     title: "File Converter"
+    font.family: "JetBrains Mono"
     property int currentWorkspace: 1
 
     ListModel {
