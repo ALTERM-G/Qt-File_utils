@@ -23,55 +23,6 @@ class FileHelper(QObject):
         else:
             return f"{size_bytes / 1024**4:.2f} TB"
 
-    @Slot(str, result=bool)
-    def isCorrupted(self, path):
-        if not os.path.exists(path):
-            return True
-
-        ext = os.path.splitext(path)[1].lower().lstrip(".")
-
-        if ext in ["jpg", "jpeg", "png", "gif", "bmp", "tiff"]:
-            try:
-                with Image.open(path) as img:
-                    img.verify()
-                return False
-            except Exception:
-                return True
-
-        if ext in ["mp3", "mp4", "wav", "avi", "mkv", "flac", "mov"]:
-            try:
-                result = subprocess.run(
-                    ["ffprobe", "-v", "error", "-i", path],
-                    capture_output=True,
-                    text=True,
-                    check=False,
-                )
-                if result.returncode != 0 or result.stderr:
-                    return True
-                return False
-            except FileNotFoundError:
-                return False
-
-        if ext == "pdf":
-            try:
-                reader = PdfReader(path)
-                if len(reader.pages) >= 0:
-                    pass
-                return False
-            except Exception:
-                return True
-
-        if ext == "docx":
-            try:
-                with zipfile.ZipFile(path) as zf:
-                    if zf.testzip() is not None:
-                        return True
-                return False
-            except Exception:
-                return True
-
-        return False
-
     @Slot(str, result=str)
     def fileSize(self, path):
         try:

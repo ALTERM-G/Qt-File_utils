@@ -48,45 +48,40 @@ Rectangle {
         }
 
         GridLayout {
-            columns: 4
-            columnSpacing: 20
-            rowSpacing: 8
+            columns: 2
+            columnSpacing: 8
+            rowSpacing: 4
+
             // NAME
             Text { text: "Name:"; color: "#aaaaaa" }
-            Text {
-                text: root.formatLongText(root.fileName, 40)
-                color: "white"
+            CustomText {
+                textContent: root.formatLongText(root.fileName, 40)
                 Layout.fillWidth: true
                 Layout.rightMargin: 60
             }
 
             // TYPE
             Text { text: "Type:"; color: "#aaaaaa" }
-            Text { text: root.fileType; color: "white" }
+            CustomText { textContent: root.fileType }
 
             // EXTENSION
             Text { text: "Extension:"; color: "#aaaaaa" }
-            Text { text: root.fileExtension === "" ? "—" : "." + root.fileExtension; color: "white" }
+            CustomText { textContent: root.fileExtension === "" ? "—" : "." + root.fileExtension }
 
             // SIZE
             Text { text: "Size:"; color: "#aaaaaa" }
-            Text { text: root.fileSize; color: "white" }
+            CustomText { textContent: root.fileSize }
 
             // LAST MODIFIED
             Text { text: "Last modified:"; color: "#aaaaaa" }
-            Text { text: root.formatLongText(root.lastModified, 40); color: "white" }
+            CustomText { textContent: root.formatLongText(root.lastModified, 40) }
 
             // PATH
             Text { text: "Path:"; color: "#aaaaaa" }
-            Text {
-                text: root.formatLongText(root.filePath, 45)
-                color: "white"
+            CustomText {
+                textContent: root.formatLongText(root.filePath, 45)
                 Layout.fillWidth: true
             }
-
-            // CORRUPTED
-            Text { text: "Corrupted:"; color: "#aaaaaa" }
-            Text { text: root.isCorrupted ? "Yes" : "No"; color: "white" }
         }
     }
 }
