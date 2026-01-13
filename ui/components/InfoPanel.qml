@@ -41,8 +41,7 @@ Rectangle {
         Text {
             text: "File information"
             font.pixelSize: 16
-            font.family: "JetBrains Mono"
-            font.bold: true
+            font.family: Data.fontBold
             font.underline: true
             color: "#dddddd"
         }

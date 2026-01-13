@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls
-import Data 1.0
+import Data
 
 Rectangle {
     id: dropzone
@@ -63,9 +63,8 @@ Rectangle {
         anchors.topMargin: 30
         anchors.centerIn: parent
         visible: dropzone.droppedFile === ""
-        font.family: "JetBrains Mono"
+        font.family: Data.fontRegular
         font.pixelSize: 16
-        font.bold: true
         color: "white"
         wrapMode: Text.NoWrap
         elide: Text.ElideNone
@@ -100,9 +99,8 @@ Rectangle {
             id: filePathText
             anchors.horizontalCenter: parent.horizontalCenter
             width: dropzone.width - 40
-            font.family: "JetBrains Mono"
+            font.family: Data.fontBold
             font.pixelSize: 20
-            font.bold: true
             color: "white"
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
@@ -115,9 +113,8 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             width: dropzone.width - 40
             color: "#dd1124"
-            font.family: "JetBrains Mono"
+            font.family: Data.fontBold
             font.pixelSize: 16
-            font.bold: true
             visible: dropzone.errorMessage !== ""
             text: dropzone.errorMessage
             horizontalAlignment: Text.AlignHCenter
@@ -129,9 +126,8 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             width: dropzone.width - 40
             color: "#4CAF50"
-            font.family: "JetBrains Mono"
+            font.family: Data.fontBold
             font.pixelSize: 16
-            font.bold: true
             visible: dropzone.successMessage !== ""
             text: dropzone.successMessage
             horizontalAlignment: Text.AlignHCenter

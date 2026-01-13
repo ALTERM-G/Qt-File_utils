@@ -18,8 +18,7 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 8
         font.pixelSize: 20
-        font.family: "JetBrains Mono"
-        font.bold: true
+        font.family: Data.fontBold
         color: "#ffffff"
         focus: true
         cursorVisible: true

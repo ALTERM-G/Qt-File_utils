@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 from PySide6.QtCore import QUrl
-from PySide6.QtGui import QGuiApplication, QIcon
+from PySide6.QtGui import QGuiApplication, QIcon, QFontDatabase
 from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterSingletonType
 
 from backend.controller import Controller
@@ -16,10 +16,19 @@ def main():
     engine = QQmlApplicationEngine()
     engine.addImportPath("ui/components")
     engine.addImportPath("ui/workspaces")
+
     data_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "data", "Data.qml"
     )
     qmlRegisterSingletonType(QUrl.fromLocalFile(data_path), "Data", 1, 0, "Data")
+    assets_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets")
+    font_dir = os.path.join(assets_path, "fonts")
+    for font_filename in os.listdir(font_dir):
+        if font_filename.endswith(".ttf"):
+            font_path = os.path.join(font_dir, font_filename)
+            font_id = QFontDatabase.addApplicationFont(font_path)
+            family = QFontDatabase.applicationFontFamilies(font_id)[0]
+
     file_helper = FileHelper()
     _qml_objects.append(file_helper)
     engine.rootContext().setContextProperty("fileHelper", file_helper)

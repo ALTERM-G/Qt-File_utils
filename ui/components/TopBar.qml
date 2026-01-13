@@ -33,9 +33,8 @@ Rectangle {
                 implicitHeight: 30
                 checkable: true
                 checked: window.currentWorkspace === (index + 1)
-                font.family: "JetBrains Mono"
+                font.family: Data.fontBold
                 font.pointSize: 12
-                font.bold: true
 
                 background: Rectangle {
                     radius: 4
@@ -54,7 +53,6 @@ Rectangle {
                     color: parent.checked ? "#121212" : "#e6e6e6"
                     font.family: parent.font.family
                     font.pointSize: parent.font.pointSize
-                    font.bold: parent.font.bold
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -75,9 +73,8 @@ Rectangle {
               : ""
 
         color: "#e6e6e6"
-        font.family: "JetBrains Mono"
+        font.family: Data.fontBold
         font.pointSize: 13
-        font.bold: true
         anchors.centerIn: parent
         elide: Text.ElideRight
     }

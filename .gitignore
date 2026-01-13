@@ -4,3 +4,7 @@ __pycache__/
 
 # Qt / QML compiled files
 *.qmlc
+
+# Virtual environments
+.venv/
+venv/
