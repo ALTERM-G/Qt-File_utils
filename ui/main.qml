@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Dialogs
 import "components"
 import "workspaces"
-import Data 1.0
 
 ApplicationWindow {
     id: window

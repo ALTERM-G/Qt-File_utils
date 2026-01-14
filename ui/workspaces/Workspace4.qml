@@ -4,7 +4,8 @@ import "../components"
 
 Rectangle {
     anchors.fill: parent
-    color: "#222222"
+    color: Data.appBackground
+
     property var controller
     property var updateOutputFormats
 

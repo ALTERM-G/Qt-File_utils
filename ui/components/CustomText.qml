@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Controls
-import Data
 
 TextEdit {
     id: customText
@@ -9,11 +8,11 @@ TextEdit {
     readOnly: true
     selectByMouse: true
     wrapMode: TextEdit.Wrap
-    color: "white"
+    color: Data.textColor
     font.family: Data.fontRegular
     font.pixelSize: 14
-    selectionColor: "#dd1124"
-    selectedTextColor: "#000000"
+    selectionColor: Data.themeColor
+    selectedTextColor: Data.selectedTextColor
     horizontalAlignment: Text.AlignLeft
     verticalAlignment: Text.AlignVCenter
 }

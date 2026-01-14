@@ -4,7 +4,7 @@ import "../components"
 
 Rectangle {
     anchors.fill: parent
-    color: "#222222"
+    color: Data.appBackground
 
     property bool isExtracting
     property alias dropzone: dropzone

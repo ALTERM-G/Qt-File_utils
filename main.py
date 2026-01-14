@@ -4,11 +4,10 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 from PySide6.QtCore import QUrl
 from PySide6.QtGui import QGuiApplication, QIcon, QFontDatabase
-from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterSingletonType
+from PySide6.QtQml import QQmlApplicationEngine, QQmlComponent
 
 from backend.controller import Controller
 from backend.FileInfo.file_info import FileHelper
-
 
 def main():
     app = QGuiApplication(sys.argv)
@@ -20,7 +19,13 @@ def main():
     data_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "data", "Data.qml"
     )
-    qmlRegisterSingletonType(QUrl.fromLocalFile(data_path), "Data", 1, 0, "Data")
+
+    # --- Load Data.qml ---
+    data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "Data.qml")
+    data_component = QQmlComponent(engine, QUrl.fromLocalFile(data_path))
+    data_object = data_component.create()
+    engine.rootContext().setContextProperty("Data", data_object)
+
     assets_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets")
     font_dir = os.path.join(assets_path, "fonts")
     for font_filename in os.listdir(font_dir):

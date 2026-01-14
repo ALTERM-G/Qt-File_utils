@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+
 BusyIndicator {
     id: root
     property bool active: false

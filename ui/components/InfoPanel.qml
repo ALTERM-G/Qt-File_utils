@@ -6,8 +6,8 @@ Rectangle {
     width: 700
     height: Math.max(200, contentColumn.implicitHeight + 32)
     radius: 12
-    color: "#2a2a2a"
-    border.color: "#333333"
+    color: Data.backgroundColor_2
+    border.color: Data.borderColor
     border.width: 2
 
     property string filePath: ""

@@ -4,7 +4,7 @@ import "../components"
 
 Rectangle {
     anchors.fill: parent
-    color: "#222222"
+    color: Data.appBackground
 
     property bool isCompressing
     property alias dropzone: dropzone
@@ -71,7 +71,7 @@ Rectangle {
                     isCompressing = true
                     controller.run_compression(
                         dropzone.droppedFiles,
-                        "", // Let backend handle the folder path
+                        "",
                         combobox.currentText
                     )
                 } else {

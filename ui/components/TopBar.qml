@@ -5,7 +5,7 @@ Rectangle {
     id: topBar
     width: parent.width
     height: 40
-    color: "#121212"
+    color: Data.topBarColor
     z: 1
     property int currentWorkspace: 1
     property var titles: []
@@ -38,7 +38,7 @@ Rectangle {
 
                 background: Rectangle {
                     radius: 4
-                    color: checked ? "#8a8a8a" : hovered ? "#4a4a4a" : "#333333"
+                    color: checked ? Data.borderColor : hovered ? Data.hoverBackgroundColor : Data.backgroundColor
 
                     Behavior on color {
                         ColorAnimation {
@@ -50,7 +50,7 @@ Rectangle {
 
                 contentItem: Text {
                     text: parent.text
-                    color: parent.checked ? "#121212" : "#e6e6e6"
+                    color: parent.checked ? Data.topBarColor : Data.topBarTextColor
                     font.family: parent.font.family
                     font.pointSize: parent.font.pointSize
                     horizontalAlignment: Text.AlignHCenter
@@ -67,12 +67,13 @@ Rectangle {
             }
         }
     }
+
     Text {
         text: titles.length >= currentWorkspace
               ? titles[currentWorkspace - 1]
               : ""
 
-        color: "#e6e6e6"
+        color: Data.topBarTextColor
         font.family: Data.fontBold
         font.pointSize: 13
         anchors.centerIn: parent
