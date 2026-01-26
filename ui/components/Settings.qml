@@ -7,7 +7,7 @@ Popup {
     height: 350
     visible: false
     parent: Overlay.overlay
-    x: parent.width - width - 20
+    x: parent.width - width - 10
     y: 40
     modal: true
     focus: true

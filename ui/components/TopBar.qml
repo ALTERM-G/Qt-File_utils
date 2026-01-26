@@ -28,6 +28,7 @@ Rectangle {
             model: 4
 
             Button {
+                id: workspaceButton
                 text: (index + 1).toString()
                 implicitWidth: 40
                 implicitHeight: 30
@@ -35,6 +36,13 @@ Rectangle {
                 checked: window.currentWorkspace === (index + 1)
                 font.family: Data.fontBold
                 font.pointSize: 12
+
+                CustomToolTip {
+                    id: tooltip
+                    visible: workspaceButton.hovered
+                    delay: 600
+                    text: Data.workspaceTitles[index]
+                }
 
                 background: Rectangle {
                     radius: 4
@@ -88,7 +96,7 @@ Rectangle {
     }
 
     Rectangle {
-        id: buttonRect
+        id: settingsButton
         anchors.right: parent.right
         anchors.rightMargin: 10
         anchors.verticalCenter: parent.verticalCenter
@@ -114,6 +122,13 @@ Rectangle {
             Behavior on color {
                 ColorAnimation { duration: 150 }
             }
+        }
+
+        CustomToolTip {
+            id: tooltip
+            visible: mouseArea.containsMouse
+            delay: 600
+            text: "Settings"
         }
 
         Settings {
