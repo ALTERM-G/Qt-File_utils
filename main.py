@@ -1,47 +1,83 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.dirname(__file__))
 from PySide6.QtCore import QUrl
-from PySide6.QtGui import QGuiApplication, QIcon, QFontDatabase
+from PySide6.QtGui import QFontDatabase, QGuiApplication, QIcon
 from PySide6.QtQml import QQmlApplicationEngine, QQmlComponent
 
 from backend.controller import Controller
 from backend.FileInfo.file_info import FileHelper
 
+_qml_objects = []
+
+def load_qml(engine, filename, context_name):
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
+
+    if os.path.exists(path):
+        component = QQmlComponent(engine, QUrl.fromLocalFile(path))
+        obj = component.create()
+
+        if obj:
+            engine.rootContext().setContextProperty(context_name, obj)
+            return obj
+        else:
+            print(f"Error loading {filename}")
+            for error in component.errors():
+                print(error.toString())
+    else:
+        print(f"Missing QML file: {path}")
+
+    return None
+
+
 def main():
     app = QGuiApplication(sys.argv)
-    _qml_objects = []
     engine = QQmlApplicationEngine()
-    engine.addImportPath("ui/components")
-    engine.addImportPath("ui/workspaces")
+    base = os.path.dirname(os.path.abspath(__file__))
+    engine.addImportPath(os.path.join(base, "ui"))
+    engine.addImportPath(os.path.join(base, "ui/components"))
+    engine.addImportPath(os.path.join(base, "ui/workspaces"))
 
-    data_path = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "data", "Data.qml"
-    )
+    # ---------------- Fonts ----------------
+    font_dir = os.path.join(base, "assets", "fonts")
+    if os.path.exists(font_dir):
+        for font in os.listdir(font_dir):
+            if font.endswith(".ttf"):
+                QFontDatabase.addApplicationFont(os.path.join(font_dir, font))
 
-    # --- Load Data.qml ---
-    data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "Data.qml")
-    data_component = QQmlComponent(engine, QUrl.fromLocalFile(data_path))
-    data_object = data_component.create()
-    engine.rootContext().setContextProperty("Data", data_object)
+    # ---------------- Icons ----------------
+    app.setWindowIcon(QIcon(os.path.join(base, "assets/icons/icon.svg")))
 
-    assets_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets")
-    font_dir = os.path.join(assets_path, "fonts")
-    for font_filename in os.listdir(font_dir):
-        if font_filename.endswith(".ttf"):
-            font_path = os.path.join(font_dir, font_filename)
-            font_id = QFontDatabase.addApplicationFont(font_path)
-            family = QFontDatabase.applicationFontFamilies(font_id)[0]
 
-    file_helper = FileHelper()
-    _qml_objects.append(file_helper)
-    engine.rootContext().setContextProperty("fileHelper", file_helper)
+    # ---------------- Load QML singletons ----------------
+
+    qml_singletons = [
+        ("Theme", "data/ui/Theme.qml"),
+        ("Data", "data/Data.qml"),
+        ("Typography", "data/ui/Typography.qml"),
+        ("AppConfig", "data/ui/AppConfig.qml"),
+        ("Metrics", "data/ui/Metrics.qml")
+    ]
+
+    qml_objects = {}
+
+    for name, path in qml_singletons:
+        qml_objects[name] = load_qml(engine, path, name)
+
+
+    # ---------------- Backend ----------------
     controller = Controller()
-    _qml_objects.append(controller)
+    file_helper = FileHelper()
+
+    _qml_objects.extend([controller, file_helper])
+
     engine.rootContext().setContextProperty("controller", controller)
-    engine.load("ui/main.qml")
-    app.setWindowIcon(QIcon("assets/icons/icon.svg"))
+    engine.rootContext().setContextProperty("fileHelper", file_helper)
+
+    # ---------------- Load main.qml ----------------
+    main_qml = os.path.join(base, "ui", "main.qml")
+    engine.load(QUrl.fromLocalFile(main_qml))
+
     if not engine.rootObjects():
         sys.exit(-1)
 

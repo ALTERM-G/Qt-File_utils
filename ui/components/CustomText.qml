@@ -8,11 +8,11 @@ TextEdit {
     readOnly: true
     selectByMouse: true
     wrapMode: TextEdit.Wrap
-    color: Data.textColor
+    color: Theme.textColor
     font.family: Data.fontRegular
     font.pixelSize: 14
-    selectionColor: Data.themeColor
-    selectedTextColor: Data.selectedTextColor
+    selectionColor: Theme.themeColor
+    selectedTextColor: Theme.selectedTextColor
     horizontalAlignment: Text.AlignLeft
     verticalAlignment: Text.AlignVCenter
 }

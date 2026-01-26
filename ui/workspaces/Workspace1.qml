@@ -5,7 +5,7 @@ import "../components"
 
 Rectangle {
     anchors.fill: parent
-    color: Data.appBackground
+    color: Theme.appBackground
 
     property ListModel outputFormats
     property var updateOutputFormats

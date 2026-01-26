@@ -1,2 +1,6 @@
 module Data
+singleton Theme 1.0 ui/Theme.qml
+singleton Typography 1.0 ui/Typography.qml
+singleton AppConfig 1.0 ui/AppConfig.qml
+singleton Metrics 1.0 ui/Metrics.qml
 singleton Data 1.0 Data.qml

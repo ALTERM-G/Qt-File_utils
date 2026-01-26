@@ -6,8 +6,8 @@ Rectangle {
     width: 700
     height: Math.max(200, contentColumn.implicitHeight + 32)
     radius: 12
-    color: Data.backgroundColor_2
-    border.color: Data.borderColor
+    color: Theme.backgroundColor_2
+    border.color: Theme.borderColor
     border.width: 2
 
     property string filePath: ""
@@ -43,7 +43,7 @@ Rectangle {
             font.pixelSize: 16
             font.family: Data.fontBold
             font.underline: true
-            color: "#dddddd"
+            color: Theme.textColor_2
         }
 
         GridLayout {
@@ -52,7 +52,7 @@ Rectangle {
             rowSpacing: 4
 
             // NAME
-            Text { text: "Name:"; color: "#aaaaaa" }
+            Text { text: "Name:"; color: Theme.textColor_3 }
             CustomText {
                 textContent: root.formatLongText(root.fileName, 40)
                 Layout.fillWidth: true
@@ -60,23 +60,23 @@ Rectangle {
             }
 
             // TYPE
-            Text { text: "Type:"; color: "#aaaaaa" }
+            Text { text: "Type:"; color: Theme.textColor_3 }
             CustomText { textContent: root.fileType }
 
             // EXTENSION
-            Text { text: "Extension:"; color: "#aaaaaa" }
+            Text { text: "Extension:"; color: Theme.textColor_3 }
             CustomText { textContent: root.fileExtension === "" ? "—" : "." + root.fileExtension }
 
             // SIZE
-            Text { text: "Size:"; color: "#aaaaaa" }
+            Text { text: "Size:"; color: Theme.textColor_3 }
             CustomText { textContent: root.fileSize }
 
             // LAST MODIFIED
-            Text { text: "Last modified:"; color: "#aaaaaa" }
+            Text { text: "Last modified:"; color: Theme.textColor_3 }
             CustomText { textContent: root.formatLongText(root.lastModified, 40) }
 
             // PATH
-            Text { text: "Path:"; color: "#aaaaaa" }
+            Text { text: "Path:"; color: Theme.textColor_3 }
             CustomText {
                 textContent: root.formatLongText(root.filePath, 45)
                 Layout.fillWidth: true

@@ -5,8 +5,8 @@ Rectangle {
     width: 200
     height: 40
     radius: 6
-    color: mouseArea.containsMouse ? Data.hoverBackgroundColor : Data.backgroundColor
-    border.color: Data.borderColor
+    color: mouseArea.containsMouse ? Theme.hoverBackgroundColor : Theme.backgroundColor
+    border.color: Theme.borderColor
     border.width: 2.5
     signal pressed
     property string buttonText
@@ -23,7 +23,7 @@ Rectangle {
         text: convertButton.buttonText
         font.pixelSize: 18
         font.family: Data.fontBold
-        color: Data.textColor
+        color: Theme.textColor
     }
 
     MouseArea {

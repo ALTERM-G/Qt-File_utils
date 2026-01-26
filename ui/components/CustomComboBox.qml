@@ -12,14 +12,14 @@ ComboBox {
         anchors.fill: parent
         font.pixelSize: 18
         font.family: Data.fontBold
-        color: Data.textColor
+        color: Theme.textColor
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
     }
 
     indicator: Text {
         text: "▾"
-        color: Data.borderColor
+        color: Theme.borderColor
         font.pixelSize: 24
         anchors.right: parent.right
         anchors.rightMargin: 10
@@ -29,8 +29,8 @@ ComboBox {
     background: Rectangle {
         anchors.fill: parent
         radius: 6
-        color: control.hovered ? Data.hoverBackgroundColor : Data.backgroundColor
-        border.color: Data.borderColor
+        color: control.hovered ? Theme.hoverBackgroundColor : Theme.backgroundColor
+        border.color: Theme.borderColor
         border.width: 3
 
         Behavior on color {
@@ -52,8 +52,8 @@ ComboBox {
 
         background: Rectangle {
             radius: 6
-            color: Data.backgroundColor
-            border.color: Data.borderColor
+            color: Theme.backgroundColor
+            border.color: Theme.borderColor
             border.width: 3
         }
 
@@ -72,14 +72,14 @@ ComboBox {
                         text: control.textRole ? model[control.textRole] : modelData
                         font.pixelSize: 18
                         font.family: Data.fontBold
-                        color: Data.textColor
+                        color: Theme.textColor
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                     }
 
                     background: Rectangle {
                         anchors.fill: parent
-                        color: hovered ? Data.themeColor : "transparent"
+                        color: hovered ? Theme.themeColor : "transparent"
                         radius: 6
                     }
 

@@ -5,7 +5,7 @@ Rectangle {
     id: topBar
     width: parent.width
     height: 40
-    color: Data.topBarColor
+    color: Theme.topBarColor
     z: 1
     property int currentWorkspace: 1
     property var titles: []
@@ -38,7 +38,7 @@ Rectangle {
 
                 background: Rectangle {
                     radius: 4
-                    color: checked ? Data.borderColor : hovered ? Data.hoverBackgroundColor : Data.backgroundColor
+                    color: checked ? Theme.borderColor : hovered ? Theme.hoverBackgroundColor : Theme.backgroundColor
 
                     Behavior on color {
                         ColorAnimation {
@@ -50,7 +50,7 @@ Rectangle {
 
                 contentItem: Text {
                     text: parent.text
-                    color: parent.checked ? Data.topBarColor : Data.topBarTextColor
+                    color: parent.checked ? Theme.topBarColor : Theme.topBarTextColor
                     font.family: parent.font.family
                     font.pointSize: parent.font.pointSize
                     horizontalAlignment: Text.AlignHCenter
@@ -73,10 +73,51 @@ Rectangle {
               ? titles[currentWorkspace - 1]
               : ""
 
-        color: Data.topBarTextColor
+        color: Theme.topBarTextColor
         font.family: Data.fontBold
         font.pointSize: 13
         anchors.centerIn: parent
         elide: Text.ElideRight
+    }
+
+    SVGObject {
+        anchors.right: parent.right
+        anchors.rightMargin: 10
+        anchors.verticalCenter: parent.verticalCenter
+        color: Theme.borderColor
+    }
+
+    Rectangle {
+        id: buttonRect
+        anchors.right: parent.right
+        anchors.rightMargin: 10
+        anchors.verticalCenter: parent.verticalCenter
+        width: 30
+        height: 30
+        color: "transparent"
+
+        MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: {
+                settingsPopup.opened ? settingsPopup.close() : settingsPopup.open()
+            }
+        }
+
+        SVGObject {
+            anchors.centerIn: parent
+            path: "../../assets/icons/settings/settings.svg"
+            color: mouseArea.containsMouse ? Theme.themeColor : Theme.textColor
+
+            Behavior on color {
+                ColorAnimation { duration: 150 }
+            }
+        }
+
+        Settings {
+            id: settingsPopup
+        }
     }
 }

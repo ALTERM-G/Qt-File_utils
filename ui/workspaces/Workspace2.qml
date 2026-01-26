@@ -4,7 +4,7 @@ import "../components"
 
 Rectangle {
     anchors.fill: parent
-    color: Data.appBackground
+    color: Theme.appBackground
 
     property bool isCompressing
     property alias dropzone: dropzone

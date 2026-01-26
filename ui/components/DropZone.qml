@@ -6,7 +6,7 @@ Rectangle {
     width: 700
     height: 400
     radius: 16
-    color: hovered ? Data.hoverBackgroundColor : Data.backgroundColor
+    color: hovered ? Theme.hoverBackgroundColor : Theme.backgroundColor
 
     Canvas {
         id: border_canvas
@@ -15,7 +15,7 @@ Rectangle {
             var ctx = getContext("2d");
             ctx.clearRect(0, 0, width, height);
             ctx.lineWidth = 4;
-            ctx.strokeStyle = dropzone.dragHovered ? Data.themeColor : Data.borderColor;
+            ctx.strokeStyle = dropzone.dragHovered ? Theme.themeColor : Theme.borderColor;
             ctx.setLineDash(dropzone.dragHovered ? [] : [6, 3]);
             ctx.lineJoin = "round";
             var r = dropzone.radius;
@@ -64,7 +64,7 @@ Rectangle {
         visible: dropzone.droppedFile === ""
         font.family: Data.fontRegular
         font.pixelSize: 16
-        color: Data.textColor
+        color: Theme.textColor
         wrapMode: Text.NoWrap
         elide: Text.ElideNone
         horizontalAlignment: Text.AlignLeft
@@ -100,7 +100,7 @@ Rectangle {
             width: dropzone.width - 40
             font.family: Data.fontBold
             font.pixelSize: 20
-            color: Data.textColor
+            color: Theme.textColor
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
             text: dropzone.droppedFile
@@ -111,7 +111,7 @@ Rectangle {
             id: errorText
             anchors.horizontalCenter: parent.horizontalCenter
             width: dropzone.width - 40
-            color: Data.themeColor
+            color: Theme.themeColor
             font.family: Data.fontBold
             font.pixelSize: 16
             visible: dropzone.errorMessage !== ""
@@ -124,7 +124,7 @@ Rectangle {
             id: successText
             anchors.horizontalCenter: parent.horizontalCenter
             width: dropzone.width - 40
-            color: Data.successTextColor
+            color: Theme.successTextColor
             font.family: Data.fontBold
             font.pixelSize: 16
             visible: dropzone.successMessage !== ""

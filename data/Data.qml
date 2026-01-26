@@ -2,22 +2,8 @@ pragma Singleton
 import QtQuick
 
 QtObject {
-    // --- Colors and Fonts ---
     readonly property string fontRegular: "JetBrainsMono NL"
     readonly property string fontBold: "JetBrainsMono"
-    readonly property color appBackground: "#222222"
-    readonly property color themeColor: "#dd1124"
-    readonly property color hoverBackgroundColor: "#4b4b4b"
-    readonly property color backgroundColor: "#333333"
-    readonly property color backgroundColor_2: "#2a2a2a"
-    readonly property color topBarColor: "#121212"
-    readonly property color topBarTextColor: "#e6e6e6"
-    readonly property color borderColor: "#888888"
-    readonly property color textColor: "#ffffff"
-    readonly property color selectedTextColor: "#000000"
-    readonly property color successTextColor: "#4CAF50"
-
-    // --- Extension to Type ---
     readonly property var extensionToTypeMap: ({
         // Documents
         "txt": "Document",
@@ -114,7 +100,6 @@ QtObject {
         "woff2": "Font"
     })
 
-    // --- Titles ---
     readonly property var workspaceTitles: ([
         "Convert Files",
         "Compress Files",
