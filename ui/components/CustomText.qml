@@ -9,7 +9,7 @@ TextEdit {
     selectByMouse: true
     wrapMode: TextEdit.Wrap
     color: Theme.textColor
-    font.family: Data.fontRegular
+    font.family: Typography.fontRegular
     font.pixelSize: 14
     selectionColor: Theme.themeColor
     selectedTextColor: Theme.selectedTextColor

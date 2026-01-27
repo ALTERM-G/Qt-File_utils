@@ -26,7 +26,7 @@ Rectangle {
         Text {
             text: "Choose File"
             font.pixelSize: 18
-            font.family: Data.fontBold
+            font.family: Typography.fontBold
             color: Theme.textColor
         }
     }

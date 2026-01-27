@@ -62,7 +62,7 @@ Rectangle {
         anchors.topMargin: 30
         anchors.centerIn: parent
         visible: dropzone.droppedFile === ""
-        font.family: Data.fontRegular
+        font.family: Typography.fontRegular
         font.pixelSize: 16
         color: Theme.textColor
         wrapMode: Text.NoWrap
@@ -98,7 +98,7 @@ Rectangle {
             id: filePathText
             anchors.horizontalCenter: parent.horizontalCenter
             width: dropzone.width - 40
-            font.family: Data.fontBold
+            font.family: Typography.fontBold
             font.pixelSize: 20
             color: Theme.textColor
             wrapMode: Text.Wrap
@@ -112,7 +112,7 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             width: dropzone.width - 40
             color: Theme.themeColor
-            font.family: Data.fontBold
+            font.family: Typography.fontBold
             font.pixelSize: 16
             visible: dropzone.errorMessage !== ""
             text: dropzone.errorMessage
@@ -125,7 +125,7 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             width: dropzone.width - 40
             color: Theme.successTextColor
-            font.family: Data.fontBold
+            font.family: Typography.fontBold
             font.pixelSize: 16
             visible: dropzone.successMessage !== ""
             text: dropzone.successMessage

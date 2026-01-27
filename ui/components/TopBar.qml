@@ -34,7 +34,7 @@ Rectangle {
                 implicitHeight: 30
                 checkable: true
                 checked: window.currentWorkspace === (index + 1)
-                font.family: Data.fontBold
+                font.family: Typography.fontBold
                 font.pointSize: 12
 
                 CustomToolTip {
@@ -82,7 +82,7 @@ Rectangle {
               : ""
 
         color: Theme.topBarTextColor
-        font.family: Data.fontBold
+        font.family: Typography.fontBold
         font.pointSize: 13
         anchors.centerIn: parent
         elide: Text.ElideRight

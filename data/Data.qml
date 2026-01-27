@@ -2,9 +2,7 @@ pragma Singleton
 import QtQuick
 
 QtObject {
-    readonly property string fontRegular: "JetBrainsMono NL"
-    readonly property string fontBold: "JetBrainsMono"
-    readonly property var extensionToTypeMap: ({
+   readonly property var extensionToTypeMap: ({
         // Documents
         "txt": "Document",
         "md": "Document",

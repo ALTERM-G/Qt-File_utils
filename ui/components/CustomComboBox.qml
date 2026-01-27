@@ -11,7 +11,7 @@ ComboBox {
         text: control.displayText !== "" ? control.displayText : "Select"
         anchors.fill: parent
         font.pixelSize: 18
-        font.family: Data.fontBold
+        font.family: Typography.fontBold
         color: Theme.textColor
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
@@ -71,7 +71,7 @@ ComboBox {
                     contentItem: Text {
                         text: control.textRole ? model[control.textRole] : modelData
                         font.pixelSize: 18
-                        font.family: Data.fontBold
+                        font.family: Typography.fontBold
                         color: Theme.textColor
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter

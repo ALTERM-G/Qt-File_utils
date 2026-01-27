@@ -41,7 +41,7 @@ Rectangle {
         Text {
             text: "File information"
             font.pixelSize: 16
-            font.family: Data.fontBold
+            font.family: Typography.fontBold
             font.underline: true
             color: Theme.textColor_2
         }

@@ -14,7 +14,7 @@ ApplicationWindow {
     minimumHeight: height
     maximumHeight: height
     title: "File Converter"
-    font.family: Data.fontRegular
+    font.family: Typography.fontRegular
     property int currentWorkspace: 1
 
     ListModel {

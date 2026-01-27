@@ -14,7 +14,7 @@ ToolTip {
     contentItem: Text {
         text: customToolTip.text
         color: Theme.textColor
-        font.family: Data.fontBold
+        font.family: Typography.fontBold
         font.pointSize: 10
         padding: 6
     }
