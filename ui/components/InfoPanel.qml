@@ -40,7 +40,7 @@ Rectangle {
 
         Text {
             text: "File information"
-            font.pixelSize: 16
+            font.pixelSize: Typography.bigFontSize
             font.family: Typography.fontBold
             font.underline: true
             color: Theme.textColor_2

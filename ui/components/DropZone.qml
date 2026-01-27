@@ -63,7 +63,7 @@ Rectangle {
         anchors.centerIn: parent
         visible: dropzone.droppedFile === ""
         font.family: Typography.fontRegular
-        font.pixelSize: 16
+        font.pixelSize: Typography.bigFontSize
         color: Theme.textColor
         wrapMode: Text.NoWrap
         elide: Text.ElideNone
@@ -99,7 +99,7 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             width: dropzone.width - 40
             font.family: Typography.fontBold
-            font.pixelSize: 20
+            font.pixelSize: Typography.iconFontSize
             color: Theme.textColor
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
@@ -113,7 +113,7 @@ Rectangle {
             width: dropzone.width - 40
             color: Theme.themeColor
             font.family: Typography.fontBold
-            font.pixelSize: 16
+            font.pixelSize: Typography.bigFontSize
             visible: dropzone.errorMessage !== ""
             text: dropzone.errorMessage
             horizontalAlignment: Text.AlignHCenter
@@ -126,7 +126,7 @@ Rectangle {
             width: dropzone.width - 40
             color: Theme.successTextColor
             font.family: Typography.fontBold
-            font.pixelSize: 16
+            font.pixelSize: Typography.bigFontSize
             visible: dropzone.successMessage !== ""
             text: dropzone.successMessage
             horizontalAlignment: Text.AlignHCenter

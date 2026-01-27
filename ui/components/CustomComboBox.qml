@@ -6,21 +6,25 @@ ComboBox {
     width: 200
     height: 40
     hoverEnabled: true
+    property int optionHeight: 35
+    property int popupPadding: 6
 
     contentItem: Text {
         text: control.displayText !== "" ? control.displayText : "Select"
         anchors.fill: parent
-        font.pixelSize: 18
+        font.pixelSize: Typography.bigFontSize
         font.family: Typography.fontBold
-        color: Theme.textColor
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
+        color: mouseArea.containsMouse ? Theme.hoverTextColor : Theme.textColor
+
+        Behavior on color { ColorAnimation { duration: 150 } }
     }
 
     indicator: Text {
         text: "▾"
-        color: Theme.borderColor
-        font.pixelSize: 24
+        color: contentItem.color
+        font.pixelSize: Typography.iconFontSize
         anchors.right: parent.right
         anchors.rightMargin: 10
         anchors.verticalCenter: parent.verticalCenter
@@ -29,18 +33,16 @@ ComboBox {
     background: Rectangle {
         anchors.fill: parent
         radius: 6
-        color: control.hovered ? Theme.hoverBackgroundColor : Theme.backgroundColor
         border.color: Theme.borderColor
         border.width: 3
+        color: mouseArea.containsMouse ? Theme.hoverBackgroundColor : Theme.backgroundColor
 
-        Behavior on color {
-            ColorAnimation {
-                duration: 150
-            }
-        }
+        Behavior on color { ColorAnimation { duration: 150 } }
 
         MouseArea {
+            id: mouseArea
             anchors.fill: parent
+            hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: control.open()
         }
@@ -48,7 +50,13 @@ ComboBox {
 
     popup: Popup {
         width: control.width
-        implicitHeight: control.count * 47
+        implicitHeight: control.count * control.optionHeight + control.popupPadding * 2
+
+        padding: 0
+        topPadding: 0
+        bottomPadding: 0
+        leftPadding: 0
+        rightPadding: 0
 
         background: Rectangle {
             radius: 6
@@ -59,37 +67,39 @@ ComboBox {
 
         Column {
             anchors.fill: parent
+            anchors.margins: control.popupPadding
             spacing: 0
 
             Repeater {
                 model: control.model
 
-                delegate: ItemDelegate {
-                    width: parent ? parent.width : 200
-                    height: 43
-
-                    contentItem: Text {
-                        text: control.textRole ? model[control.textRole] : modelData
-                        font.pixelSize: 18
-                        font.family: Typography.fontBold
-                        color: Theme.textColor
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-
-                    background: Rectangle {
-                        anchors.fill: parent
-                        color: hovered ? Theme.themeColor : "transparent"
-                        radius: 6
-                    }
+                delegate: Rectangle {
+                    width: parent.width
+                    height: control.optionHeight
+                    radius: 6
+                    property bool hovered: false
+                    color: hovered ? Theme.themeColor : "transparent"
 
                     MouseArea {
                         anchors.fill: parent
+                        hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
+                        onEntered: parent.hovered = true
+                        onExited: parent.hovered = false
                         onClicked: {
                             control.currentIndex = index
                             control.popup.close()
                         }
+                    }
+
+                    Text {
+                        anchors.fill: parent
+                        text: control.textRole ? model[control.textRole] : modelData
+                        font.pixelSize: Typography.bigFontSize
+                        font.family: Typography.fontBold
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        color: hovered ? Theme.hoverTextColor : Theme.textColor
                     }
                 }
             }

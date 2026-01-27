@@ -35,7 +35,7 @@ Rectangle {
                 checkable: true
                 checked: window.currentWorkspace === (index + 1)
                 font.family: Typography.fontBold
-                font.pointSize: 12
+                font.pointSize: Typography.mediumFontSize
 
                 CustomToolTip {
                     id: tooltip
@@ -83,7 +83,7 @@ Rectangle {
 
         color: Theme.topBarTextColor
         font.family: Typography.fontBold
-        font.pointSize: 13
+        font.pointSize: Typography.mediumFontSize
         anchors.centerIn: parent
         elide: Text.ElideRight
     }

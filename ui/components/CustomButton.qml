@@ -21,7 +21,7 @@ Rectangle {
     Text {
         anchors.centerIn: parent
         text: convertButton.buttonText
-        font.pixelSize: 18
+        font.pixelSize: Typography.bigFontSize
         font.family: Typography.fontBold
         color: Theme.textColor
     }

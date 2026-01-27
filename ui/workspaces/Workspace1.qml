@@ -9,6 +9,7 @@ Rectangle {
 
     property ListModel outputFormats
     property var updateOutputFormats
+    property var handleInputFile
     property bool isConverting
     property alias dropzone: dropzone
 
@@ -79,11 +80,8 @@ Rectangle {
             id: dropzone
             anchors.horizontalCenter: parent.horizontalCenter
             onFileDropped: (path, type) => {
-                for (var i = 0; i < comboBox.model.length; i++) {
-                    if (comboBox.model[i] === type) {
-                        comboBox.currentIndex = i
-                        break
-                    }
+                if (handleInputFile) {
+                    handleInputFile(path, dropzone, comboBox)
                 }
             }
         }
@@ -115,7 +113,9 @@ Rectangle {
         nameFilters: ["Images (*.png *.jpg *.bmp)", "Documents (*.pdf *.docx)"]
         onAccepted: {
             var path = selectedFile.toString().replace("file://", "")
-            dropzone.droppedFile = path
+            if (handleInputFile) {
+                handleInputFile(path, dropzone, comboBox)
+            }
         }
     }
 

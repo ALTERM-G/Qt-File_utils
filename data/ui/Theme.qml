@@ -11,6 +11,7 @@ QtObject {
     readonly property color topBarTextColor: "#e6e6e6"
     readonly property color borderColor: "#888888"
     readonly property color textColor: "#ffffff"
+    readonly property color hoverTextColor: "#ffffff"
     readonly property color textColor_2: "#dddddd"
     readonly property color textColor_3: "#aaaaaa"
     readonly property color selectedTextColor: "#000000"

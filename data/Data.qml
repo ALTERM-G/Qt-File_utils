@@ -104,4 +104,25 @@ QtObject {
         "Extract Media Files",
         "File Info"
     ])
+
+    function getOutputFormats(type) {
+        var formats = []
+        if (type === "Video")
+            formats = [".mp4", ".mkv", ".avi", ".mov"]
+        else if (type === "Vector")
+            formats = [".svg", ".pdf", ".png", ".eps"]
+        else if (type === "Image")
+            formats = [".png", ".jpg", ".webp", ".bmp"]
+        else if (type === "Audio")
+            formats = [".mp3", ".wav", ".flac", ".ogg", ".aac", ".m4a", ".opus"]
+        else if (type === "Document")
+            formats = [".txt", ".md", ".html", ".rtf", ".csv", ".docx", ".pdf"]
+        
+        return formats
+    }
+
+    function getFileType(path) {
+        var ext = path.split(".").pop().toLowerCase()
+        return extensionToTypeMap[ext]
+    }
 }
