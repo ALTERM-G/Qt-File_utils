@@ -45,12 +45,10 @@ def main():
             if font.endswith(".ttf"):
                 QFontDatabase.addApplicationFont(os.path.join(font_dir, font))
 
-    # ---------------- Icons ----------------
+    # ---------------- App Icon ----------------
     app.setWindowIcon(QIcon(os.path.join(base, "assets/icons/icon.svg")))
 
-
     # ---------------- Load QML singletons ----------------
-
     qml_singletons = [
         ("Theme", "data/ui/Theme.qml"),
         ("Data", "data/Data.qml"),
@@ -64,13 +62,10 @@ def main():
     for name, path in qml_singletons:
         qml_objects[name] = load_qml(engine, path, name)
 
-
     # ---------------- Backend ----------------
     controller = Controller()
     file_helper = FileHelper()
-
     _qml_objects.extend([controller, file_helper])
-
     engine.rootContext().setContextProperty("controller", controller)
     engine.rootContext().setContextProperty("fileHelper", file_helper)
 
@@ -80,7 +75,6 @@ def main():
 
     if not engine.rootObjects():
         sys.exit(-1)
-
     sys.exit(app.exec())
 
 
